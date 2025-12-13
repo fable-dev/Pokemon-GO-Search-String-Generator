@@ -172,3 +172,28 @@ function deleteSavedString(index) {
     localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
     renderSavedStrings();
 }
+
+// --- MOBILE TOOLTIP FIX ---
+// This handles tapping on mobile to toggle the tooltip
+const tooltips = document.querySelectorAll('.tooltip-container');
+
+tooltips.forEach(container => {
+    const icon = container.querySelector('.info-icon');
+    if (!icon) return;
+
+    icon.addEventListener('click', (e) => {
+        // Prevent the click from triggering anything else
+        e.stopPropagation();
+        
+        // Close all other tooltips first (so you don't have 5 open)
+        tooltips.forEach(t => t.classList.remove('active'));
+
+        // Toggle this one
+        container.classList.toggle('active');
+    });
+});
+
+// Close tooltips if you tap anywhere else on the screen
+document.addEventListener('click', () => {
+    tooltips.forEach(t => t.classList.remove('active'));
+});
