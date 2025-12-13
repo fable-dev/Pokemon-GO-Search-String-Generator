@@ -1,3 +1,14 @@
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* Kills side-scrolling */
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+
 :root {
     /* Light Mode */
     --primary: #ef5350;
