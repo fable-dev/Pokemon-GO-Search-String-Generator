@@ -39,6 +39,14 @@
                 <button id="reset-btn" onclick="clearAll()">Reset All</button>
             </div>
             <span id="copy-feedback">Copied to clipboard!</span>
+            <div class="presets-container">
+                <span class="preset-label">Quick Filters:</span>
+                <button class="preset-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
+                <button class="preset-btn" onclick="applyPreset('4*')">✨ 100% IV</button>
+                <button class="preset-btn" onclick="applyPreset('0attack&0defense&0hp')">💩 Nundo (0%)</button>
+                <button class="preset-btn" onclick="applyPreset('age0')">📅 Caught Today</button>
+                <button class="preset-btn" onclick="applyPreset('age365-&!lucky')">🤝 Old Trade (1yr+)</button>
+            </div>
         </section>
 
         <section class="inputs-grid">
