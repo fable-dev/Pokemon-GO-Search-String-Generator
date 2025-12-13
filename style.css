@@ -251,6 +251,28 @@ button:active { transform: scale(0.98); }
     }
 }
 
+/* Helper: Anchor tooltip to the Left (grows right) */
+.tooltip-text.anchor-left {
+    left: -10px;
+    right: auto;
+    margin-left: 0;
+}
+/* Move arrow to left */
+.tooltip-text.anchor-left::after {
+    left: 20px;
+}
+
+/* Helper: Anchor tooltip to the Right (grows left) */
+.tooltip-text.anchor-right {
+    left: auto;
+    right: -10px;
+    margin-left: 0;
+}
+/* Move arrow to right */
+.tooltip-text.anchor-right::after {
+    left: auto;
+    right: 20px;
+}
 
 /* --- INPUTS & REST --- */
 .inputs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
