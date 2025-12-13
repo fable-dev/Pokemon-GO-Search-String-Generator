@@ -140,3 +140,69 @@ function applyPreset(presetString) {
         outputBox.style.borderColor = 'var(--border)';
     }, 300);
 }
+
+// --- SAVED STRINGS LOGIC ---
+
+const savedSection = document.getElementById('saved-section');
+const savedList = document.getElementById('saved-list');
+
+// 1. Load saved strings on startup
+document.addEventListener('DOMContentLoaded', renderSavedStrings);
+
+function saveCurrentString() {
+    const currentString = outputBox.value.trim();
+    if (!currentString) {
+        alert("Create a search string first!");
+        return;
+    }
+
+    // Ask user for a name
+    const name = prompt("Name this search (e.g. 'Trade Cleanup'):");
+    if (!name) return;
+
+    // Get existing array
+    let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+
+    // Add new object
+    saved.push({ name: name, string: currentString });
+
+    // Save back to local storage
+    localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
+
+    // Re-render
+    renderSavedStrings();
+}
+
+function renderSavedStrings() {
+    const saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+
+    // Hide section if empty
+    if (saved.length === 0) {
+        savedSection.style.display = 'none';
+        return;
+    }
+
+    savedSection.style.display = 'block';
+    savedList.innerHTML = ''; // Clear list
+
+    saved.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'saved-item';
+        div.innerHTML = `
+            <span class="saved-name" onclick="loadSavedString('${item.string}')">${item.name}</span>
+            <button class="delete-btn" onclick="deleteSavedString(${index})">×</button>
+        `;
+        savedList.appendChild(div);
+    });
+}
+
+function deleteSavedString(index) {
+    let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+    saved.splice(index, 1); // Remove item at index
+    localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
+    renderSavedStrings();
+}
+
+function loadSavedString(str) {
+    applyPreset(str); // Reuse the function we made in Option B
+}
