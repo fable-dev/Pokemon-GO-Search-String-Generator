@@ -227,27 +227,69 @@ button:active { transform: scale(0.98); }
 }
 
 /* --- MOBILE TOOLTIP FIX (The "Center Popup" Strategy) --- */
+/* --- MOBILE & RESPONSIVE FIXES --- */
+
 @media (max-width: 600px) {
-    /* On mobile, ignore the icon position */
-    .tooltip-container .tooltip-text {
-        position: fixed; /* Lock to the screen, not the button */
-        top: 50%;
-        left: 50%;
-        bottom: auto; /* Reset bottom alignment */
-        transform: translate(-50%, -50%); /* Center perfectly */
-        
-        width: 80%; /* Nice width */
-        max-width: 300px;
-        z-index: 9999;
-        
-        /* Add a backdrop shadow to make it pop */
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.1);
+
+    /* 1. FIX HEADER SQUISHING: Stack the label and toggle */
+    .output-header {
+        flex-direction: column; /* Stack vertically */
+        align-items: flex-start;
+        gap: 12px;
     }
 
-    /* Hide the little arrow on mobile (since it won't point to the icon) */
-    .tooltip-container .tooltip-text::after {
+    /* Give the toggle group a nice container so it spans full width */
+    .toggle-group {
+        width: 100%;
+        justify-content: space-between; /* Spread "OR" and "AND" to edges */
+        background-color: var(--input-bg); /* Subtle background box */
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
+    
+    /* Shorten text if needed, or just let it fit now that it has space */
+    .toggle-label {
+        font-size: 0.85rem;
+    }
+
+    /* 2. FIX MOBILE TOOLTIPS: Modal Style (Centered Popup) */
+    /* This overrides the default positioning only when the '.active' class is present */
+    .tooltip-container.active .tooltip-text {
+        position: fixed; /* Stick to screen, not the icon */
+        top: 50%;
+        left: 50%;
+        bottom: auto !important; /* Force reset */
+        right: auto !important;
+        transform: translate(-50%, -50%); /* Perfect Center */
+        
+        width: 85%;
+        max-width: 300px;
+        background-color: #222; /* Dark background */
+        color: white;
+        text-align: center;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6); /* Heavy shadow to pop out */
+        z-index: 10000; /* On top of everything */
+        border: 1px solid rgba(255,255,255,0.1);
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Hide the little arrow triangle on mobile (it floats in middle otherwise) */
+    .tooltip-container.active .tooltip-text::after {
         display: none;
+    }
+
+    /* Add a dim backdrop behind the tooltip */
+    .tooltip-container.active::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: rgba(0,0,0,0.5); /* Dim the app */
+        z-index: 9999;
+        backdrop-filter: blur(2px); /* Optional: blur the background */
     }
 }
 
