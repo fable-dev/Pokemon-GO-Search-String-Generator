@@ -326,3 +326,70 @@ details[open] summary::after { content: '-'; }
 .delete-btn:hover {
     color: #d32f2f;
 }
+
+/* --- TOOLTIPS --- */
+.tooltip-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: help;
+}
+
+/* The Question Mark Icon */
+.info-icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: #bbb;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 14px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* The Popup Text */
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1000; /* Sit on top of everything */
+    
+    /* Position: Bottom of the text */
+    bottom: 125%; 
+    left: 50%; 
+    margin-left: -100px; /* Center it */
+    
+    /* Fade in effect */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.75rem;
+    font-weight: normal;
+    pointer-events: none; /* Let clicks pass through */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Little arrow pointing down */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show on Hover */
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
