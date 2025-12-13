@@ -173,8 +173,7 @@ function deleteSavedString(index) {
     renderSavedStrings();
 }
 
-// --- MOBILE TOOLTIP FIX ---
-// This handles tapping on mobile to toggle the tooltip
+// --- TOOLTIP LOGIC (Mobile Tap vs Desktop Hover) ---
 const tooltips = document.querySelectorAll('.tooltip-container');
 
 tooltips.forEach(container => {
@@ -182,10 +181,14 @@ tooltips.forEach(container => {
     if (!icon) return;
 
     icon.addEventListener('click', (e) => {
-        // Prevent the click from triggering anything else
-        e.stopPropagation();
+        // CHECK: If screen is wider than 600px (Desktop/Tablet), IGNORE CLICKS.
+        // This ensures desktop only uses CSS :hover.
+        if (window.innerWidth > 600) return;
+
+        // Mobile Logic:
+        e.stopPropagation(); // Stop click from bubbling
         
-        // Close all other tooltips first (so you don't have 5 open)
+        // Close other tooltips first
         tooltips.forEach(t => t.classList.remove('active'));
 
         // Toggle this one
@@ -193,7 +196,7 @@ tooltips.forEach(container => {
     });
 });
 
-// Close tooltips if you tap anywhere else on the screen
+// Close tooltips if tapping background (Mobile only)
 document.addEventListener('click', () => {
     tooltips.forEach(t => t.classList.remove('active'));
 });
