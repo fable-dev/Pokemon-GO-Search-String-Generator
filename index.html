@@ -36,7 +36,7 @@
                     <span class="toggle-label">Use AND ( & )</span>
                     
                     <span class="info-icon" style="margin-left: 5px;">?</span>
-                    <span class="tooltip-text right-align">
+                    <span class="tooltip-text right-align bottom-align">
                         <strong style="color: var(--accent);">OR ( , )</strong><br>
                         Matches <b>ANY</b> term.<br>e.g. <code>shiny,lucky</code> finds Pokémon that are either shiny OR lucky.<br><br>
                         <strong style="color: var(--accent);">AND ( & )</strong><br>
@@ -60,10 +60,8 @@
             </div>
 
             <div class="presets-container">
-                
                 <div class="presets-header">
-                    <span class="preset-label">Quick Presets:</span>
-                    
+                    <span class="preset-label">Quick Filters:</span>
                     <div class="tooltip-container toggle-group small-toggle">
                         <span class="toggle-label">Replace</span>
                         <label class="switch small-switch">
@@ -71,7 +69,6 @@
                             <span class="slider round"></span>
                         </label>
                         <span class="toggle-label">Append</span>
-
                         <span class="info-icon" style="margin-left: 5px;">?</span>
                         <span class="tooltip-text right-align">
                             <b>Replace Mode:</b><br>
@@ -81,7 +78,6 @@
                         </span>
                     </div>
                 </div>
-
                 <div class="presets-list">
                     <button class="preset-btn trash-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
                     <button class="preset-btn" onclick="applyPreset('4*')">✨ 100% IV</button>
@@ -93,11 +89,9 @@
                     <button class="preset-btn trade-btn" onclick="applyPreset('0*,1*,2*&!shiny&!legendary&!mythical&!ultra beast')">🔄 Mirror Trade</button>
                 </div>
             </div>
-
         </section>
 
         <section class="inputs-grid">
-            
             <div class="input-group">
                 <label>Pokémon Name</label>
                 <div class="input-row">
@@ -111,7 +105,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="input-group">
                 <div class="tooltip-container">
                     <label>CP Range</label>
@@ -124,7 +117,6 @@
                     <input type="number" id="cp-max" placeholder="Max" class="dynamic-input">
                 </div>
             </div>
-
             <div class="input-group">
                 <div class="tooltip-container">
                     <label>Distance (km)</label>
@@ -137,7 +129,6 @@
                     <input type="number" id="dist-max" placeholder="Max" class="dynamic-input">
                 </div>
             </div>
-
             <div class="input-group">
                 <div class="tooltip-container">
                     <label>Days Ago (Age)</label>
@@ -146,12 +137,10 @@
                 </div>
                 <input type="number" id="input-age" placeholder="e.g. 0" class="dynamic-input">
             </div>
-
              <div class="input-group">
                 <label>Year Caught</label>
                 <input type="number" id="input-year" placeholder="e.g. 2016" class="dynamic-input">
             </div>
-
             <div class="input-group">
                 <div class="tooltip-container">
                     <label>Move Name / Type</label>
@@ -161,9 +150,7 @@
                 <input type="text" id="input-move" placeholder="e.g. @Psychic" class="dynamic-input">
             </div>
         </section>
-
         <hr class="divider">
-
         <div class="filters-container">
             <details open><summary>Appraisal (Stars)</summary><div class="filters-grid"><label><input type="checkbox" value="4*" class="filter"> 4* (100%)</label><label><input type="checkbox" value="3*" class="filter"> 3*</label><label><input type="checkbox" value="2*" class="filter"> 2*</label><label><input type="checkbox" value="1*" class="filter"> 1*</label><label><input type="checkbox" value="0*" class="filter"> 0*</label><label><input type="checkbox" value="!4*" class="filter"> Not 4*</label></div></details>
             <details><summary>Status & Attributes</summary><div class="filters-grid"><label><input type="checkbox" value="shiny" class="filter"> Shiny</label><label><input type="checkbox" value="!shiny" class="filter"> Not Shiny</label><label><input type="checkbox" value="lucky" class="filter"> Lucky</label><label><input type="checkbox" value="shadow" class="filter"> Shadow</label><label><input type="checkbox" value="purified" class="filter"> Purified</label><label><input type="checkbox" value="costume" class="filter"> Costume</label><label><input type="checkbox" value="!costume" class="filter"> Not Costume</label><label><input type="checkbox" value="favorite" class="filter"> Favorite</label></div></details>
@@ -175,11 +162,7 @@
             <details><summary>Moves, Raids & Misc</summary><div class="filters-grid"><label><input type="checkbox" value="@special" class="filter"> Special Move</label><label><input type="checkbox" value="@weather" class="filter"> Weather Boost</label><label><input type="checkbox" value="traded" class="filter"> Traded</label><label><input type="checkbox" value="!traded" class="filter"> Not Traded</label><label><input type="checkbox" value="defender" class="filter"> Gym Defender</label><label><input type="checkbox" value="gbl" class="filter"> GBL Reward</label><label><input type="checkbox" value="raid" class="filter"> Raid</label><label><input type="checkbox" value="remoteraid" class="filter"> Remote Raid</label><label><input type="checkbox" value="snapshot" class="filter"> Snapshot</label><label><input type="checkbox" value="locationbackground" class="filter"> Location BG</label><label><input type="checkbox" value="specialbackground" class="filter"> Special BG</label></div></details>
         </div>
     </main>
-
-    <footer>
-        <p>Built for Pokémon GO Trainers</p>
-    </footer>
-
+    <footer><p>Built for Pokémon GO Trainers</p></footer>
     <script src="script.js"></script>
 </body>
 </html>
