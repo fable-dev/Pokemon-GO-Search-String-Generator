@@ -47,16 +47,27 @@ header {
 .header-title p { margin: 0.2rem 0 0; font-size: 0.8rem; opacity: 0.9; }
 
 /* MODIFIED: Fixed Theme Toggle Button */
+/* Find this section in style.css and replace it */
 #theme-toggle {
     background: rgba(255, 255, 255, 0.15);
-    border: none; color: white;
-    width: 40px; height: 40px;
-    aspect-ratio: 1 / 1; /* Force square aspect ratio */
+    border: none; 
+    color: white;
+    width: 40px; 
+    height: 40px;
+    aspect-ratio: 1 / 1; 
     border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background 0.2s;
-    font-size: 1.2rem; flex-shrink: 0;
-    padding: 0; /* Ensure no padding stretches it */
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer; 
+    transition: background 0.2s;
+    font-size: 1.2rem;
+    
+    /* THE FIX: stops it from inheriting "flex: 1" from the global button rule */
+    flex: none; 
+    
+    padding: 0;
+    margin-left: 10px; /* Optional: Adds a little breathing room from the text */
 }
 #theme-toggle:hover { background: rgba(255, 255, 255, 0.3); }
 
