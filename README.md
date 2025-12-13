@@ -1,0 +1,1 @@
+# Pokemon-GO-Search-String-Generator
