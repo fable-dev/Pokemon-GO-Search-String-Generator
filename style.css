@@ -181,49 +181,28 @@ button:active { transform: scale(0.98); }
     border-radius: 50%; font-size: 11px; font-weight: bold;
 }
 .tooltip-text {
-    visibility: hidden;
-    width: max-content;       /* Shrink to fit text */
-    max-width: 220px;         /* Cap the width */
-    background-color: #333;
-    color: #fff;
-    text-align: left;         /* easier to read */
-    border-radius: 6px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1000;
-    
-    /* Default: Center above */
-    bottom: 145%; 
-    left: 50%; 
-    transform: translateX(-50%); /* Perfect centering without magic numbers */
-    
-    opacity: 0; 
-    transition: opacity 0.2s;
-    font-size: 0.8rem; 
-    font-weight: normal; 
-    line-height: 1.4;
-    pointer-events: none; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    visibility: hidden; width: 220px; background-color: #333; color: #fff;
+    text-align: left; border-radius: 6px; padding: 10px;
+    position: absolute; z-index: 1000;
+    bottom: 135%; left: 50%; margin-left: -110px;
+    opacity: 0; transition: opacity 0.2s, bottom 0.2s, top 0.2s; /* Added top transition */
+    font-size: 0.8rem; font-weight: normal; line-height: 1.4;
+    pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .tooltip-text code { background: rgba(255,255,255,0.2); padding: 2px 4px; border-radius: 4px; font-family: monospace; }
 .tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px; /* Center the arrow */
-    border-width: 5px;
-    border-style: solid;
-    border-color: #333 transparent transparent transparent;
+    content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+    border-width: 5px; border-style: solid; border-color: #333 transparent transparent transparent;
 }
 .tooltip-text.right-align { left: auto; right: -10px; margin-left: 0; width: 260px; }
 .tooltip-text.right-align::after { left: auto; right: 15px; margin-left: 0; }
 
-/* --- BOTTOM ALIGN (Flip Down) --- */
+/* MODIFIED: New Bottom-Aligned Tooltips */
 .tooltip-text.bottom-align {
-    bottom: auto;
-    top: 145%;
+    bottom: auto; /* Reset bottom positioning */
+    top: 135%;    /* Push down instead of up */
 }
+/* Flip the arrow for bottom-aligned tooltips */
 .tooltip-text.bottom-align::after {
     top: auto;
     bottom: 100%;
@@ -247,33 +226,6 @@ button:active { transform: scale(0.98); }
     top: 135%;
 }
 
-/* --- MOBILE FIX: Anchor Left instead of Center --- */
-@media (max-width: 500px) {
-    .tooltip-text {
-        left: -10px;        /* Anchor near the icon */
-        transform: none;    /* Remove centering */
-        width: 200px;       /* Fixed width for mobile consistency */
-        white-space: normal;
-    }
-    
-    /* Move the arrow to the left to match the icon */
-    .tooltip-text::after {
-        left: 18px; 
-        margin-left: 0;
-    }
-    
-    /* Fix for Right-Aligned tooltips (like the toggles) on mobile */
-    .tooltip-text.right-align {
-        left: auto;
-        right: -5px;
-        transform: none;
-    }
-    .tooltip-text.right-align::after {
-        left: auto;
-        right: 15px;
-    }
-}
-
 /* --- INPUTS & REST --- */
 .inputs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
 .input-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600; }
@@ -291,4 +243,3 @@ details[open] summary::after { content: '−'; }
 label { display: flex; align-items: center; font-size: 0.9rem; cursor: pointer; }
 input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; accent-color: var(--primary); }
 footer { text-align: center; padding: 30px; color: var(--text); opacity: 0.6; font-size: 0.8rem; }
-
