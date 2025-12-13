@@ -46,16 +46,29 @@
                     </div>
             </div>
             <div class="presets-container">
-                <span class="preset-label">Quick Presets:</span>
-                <button class="preset-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
-                <button class="preset-btn" onclick="applyPreset('4*')">✨ 100% IV</button>
-                <button class="preset-btn" onclick="applyPreset('0attack&0defense&0hp')">💩 Nundo (0%)</button>
-                <button class="preset-btn" onclick="applyPreset('age0')">📅 Caught Today</button>
-                <button class="preset-btn" onclick="applyPreset('age365-&!lucky')">🤝 Old Trade (1yr+)</button>
-                <button class="preset-btn" onclick="applyPreset('age0&!shiny&!4*&!shadow&0*,1*,2*')">🧹 CommDay Trash</button>
-                <button class="preset-btn" onclick="applyPreset('distance100-')">✈️ Dist. Trade</button>
-                <button class="preset-btn" onclick="applyPreset('0*,1*,2*&!shiny&!legendary&!mythical&!ultra beast')">🔄 Mirror Trade</button>
+        
+        <div class="presets-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
+            <span class="preset-label" style="margin: 0;">Quick Presets:</span>
+            
+            <div class="toggle-wrapper" style="font-size: 0.8rem;">
+                <span>Replace</span>
+                <label class="switch" style="margin: 0 5px; transform: scale(0.8);">
+                    <input type="checkbox" id="append-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span>Append</span>
             </div>
+        </div>
+
+        <button class="preset-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
+        <button class="preset-btn" onclick="applyPreset('4*')">✨ 100% IV</button>
+        <button class="preset-btn" onclick="applyPreset('0attack&0defense&0hp')">💩 Nundo</button>
+        <button class="preset-btn" onclick="applyPreset('age0')">📅 Caught Today</button>
+        <button class="preset-btn" onclick="applyPreset('age365-&!lucky')">🤝 Old Trade</button>
+        <button class="preset-btn" onclick="applyPreset('age0&!shiny&!4*&!shadow&0*,1*,2*')">🧹 CommDay Trash</button>
+        <button class="preset-btn" onclick="applyPreset('distance100-')">✈️ Dist. Trade</button>
+        <button class="preset-btn" onclick="applyPreset('0*,1*,2*&!shiny&!legendary&!mythical&!ultra beast')">🔄 Mirror Trade</button>
+    </div>
         </section>
 
         <section class="inputs-grid">
