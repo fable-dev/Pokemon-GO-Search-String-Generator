@@ -72,18 +72,27 @@
         </section>
 
         <section class="inputs-grid">
+            
             <div class="input-group">
                 <label>Pokémon Name</label>
                 <div class="input-row">
                     <input type="text" id="input-name" placeholder="e.g. Pikachu" class="dynamic-input">
-                    <label class="checkbox-inline">
-                        <input type="checkbox" id="check-family"> +Family
-                    </label>
+                    <div class="tooltip-container">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="check-family"> +Family
+                        </label>
+                        <span class="info-icon">?</span>
+                        <span class="tooltip-text">Includes evolutions! (e.g. searching "Charmander" also finds Charmeleon & Charizard)</span>
+                    </div>
                 </div>
             </div>
 
             <div class="input-group">
-                <label>CP Range</label>
+                <div class="tooltip-container">
+                    <label>CP Range</label>
+                    <span class="info-icon">?</span>
+                    <span class="tooltip-text">Leave one side empty for open ranges (e.g., "1500 - [empty]" means 1500 and above).</span>
+                </div>
                 <div class="range-inputs">
                     <input type="number" id="cp-min" placeholder="Min" class="dynamic-input">
                     <span>-</span>
@@ -92,7 +101,11 @@
             </div>
 
             <div class="input-group">
-                <label>Distance (km)</label>
+                <div class="tooltip-container">
+                    <label>Distance (km)</label>
+                    <span class="info-icon">?</span>
+                    <span class="tooltip-text">Distance between where the Pokémon was caught and your current location. Great for trade candy!</span>
+                </div>
                 <div class="range-inputs">
                     <input type="number" id="dist-min" placeholder="Min" class="dynamic-input">
                     <span>-</span>
@@ -101,17 +114,25 @@
             </div>
 
             <div class="input-group">
-                <label>Age (Days)</label>
-                <input type="number" id="input-age" placeholder="e.g. 0 (Today)" class="dynamic-input">
+                <div class="tooltip-container">
+                    <label>Days Ago (Age)</label>
+                    <span class="info-icon">?</span>
+                    <span class="tooltip-text">0 = Caught Today<br>1 = Yesterday<br>365 = 1 Year ago</span>
+                </div>
+                <input type="number" id="input-age" placeholder="e.g. 0" class="dynamic-input">
             </div>
 
              <div class="input-group">
-                <label>Year</label>
+                <label>Year Caught</label>
                 <input type="number" id="input-year" placeholder="e.g. 2016" class="dynamic-input">
             </div>
 
             <div class="input-group">
-                <label>Move Name / Type</label>
+                <div class="tooltip-container">
+                    <label>Move Name / Type</label>
+                    <span class="info-icon">?</span>
+                    <span class="tooltip-text">Type "@Hydro Cannon" for specific move, or "@Water" for any Water move.</span>
+                </div>
                 <input type="text" id="input-move" placeholder="e.g. @Psychic" class="dynamic-input">
             </div>
         </section>
