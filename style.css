@@ -209,10 +209,19 @@ button:active { transform: scale(0.98); }
     border-color: transparent transparent #333 transparent;
 }
 
-/* Hover State (Modified to handle both top and bottom alignment) */
-.tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 125%; }
-/* When hovering a bottom-align tooltip, adjust top instead of bottom */
-.tooltip-container:hover .tooltip-text.bottom-align { bottom: auto; top: 125%; }
+@media (hover: hover) {
+    .tooltip-container:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+        bottom: 125%;
+    }
+    
+    /* Handle bottom-align hover on desktop only */
+    .tooltip-container:hover .tooltip-text.bottom-align {
+        bottom: auto;
+        top: 125%;
+    }
+}
 
 /* Mobile Tooltip Fix: Allow class-based toggling */
 .tooltip-container.active .tooltip-text {
@@ -229,67 +238,68 @@ button:active { transform: scale(0.98); }
 /* --- MOBILE TOOLTIP FIX (The "Center Popup" Strategy) --- */
 /* --- MOBILE & RESPONSIVE FIXES --- */
 
+/* --- MOBILE & RESPONSIVE FIXES --- */
 @media (max-width: 600px) {
 
-    /* 1. FIX HEADER SQUISHING: Stack the label and toggle */
+    /* 1. Header Layout: Stack them */
     .output-header {
-        flex-direction: column; /* Stack vertically */
+        flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
 
-    /* Give the toggle group a nice container so it spans full width */
     .toggle-group {
         width: 100%;
-        justify-content: space-between; /* Spread "OR" and "AND" to edges */
-        background-color: var(--input-bg); /* Subtle background box */
+        justify-content: space-between;
+        background-color: var(--input-bg);
         padding: 10px;
         border-radius: 8px;
         border: 1px solid var(--border);
     }
     
-    /* Shorten text if needed, or just let it fit now that it has space */
-    .toggle-label {
-        font-size: 0.85rem;
-    }
+    .toggle-label { font-size: 0.85rem; }
 
-    /* 2. FIX MOBILE TOOLTIPS: Modal Style (Centered Popup) */
-    /* This overrides the default positioning only when the '.active' class is present */
+    /* 2. Mobile Tooltip: Right-Aligned Modal */
     .tooltip-container.active .tooltip-text {
-        position: fixed; /* Stick to screen, not the icon */
-        top: 50%;
-        left: 50%;
-        bottom: auto !important; /* Force reset */
-        right: auto !important;
-        transform: translate(-50%, -50%); /* Perfect Center */
+        position: fixed; 
         
-        width: 85%;
-        max-width: 300px;
-        background-color: #222; /* Dark background */
+        /* VERTICAL: Center it */
+        top: 50%;
+        transform: translateY(-50%);
+        
+        /* HORIZONTAL: Anchor to RIGHT side */
+        left: auto !important; 
+        right: 15px !important; 
+        bottom: auto !important;
+        
+        /* SIZE & STYLE */
+        width: auto;
+        max-width: 85%; /* Prevent it from being too wide */
+        background-color: #222;
         color: white;
-        text-align: center;
+        text-align: left; /* Keep text readable */
         padding: 20px;
         border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.6); /* Heavy shadow to pop out */
-        z-index: 10000; /* On top of everything */
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        z-index: 10000;
         border: 1px solid rgba(255,255,255,0.1);
         visibility: visible;
         opacity: 1;
     }
 
-    /* Hide the little arrow triangle on mobile (it floats in middle otherwise) */
+    /* Hide the arrow on mobile */
     .tooltip-container.active .tooltip-text::after {
         display: none;
     }
 
-    /* Add a dim backdrop behind the tooltip */
+    /* Dimmed Backdrop */
     .tooltip-container.active::before {
         content: "";
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-color: rgba(0,0,0,0.5); /* Dim the app */
+        background-color: rgba(0,0,0,0.5);
         z-index: 9999;
-        backdrop-filter: blur(2px); /* Optional: blur the background */
+        backdrop-filter: blur(2px);
     }
 }
 
