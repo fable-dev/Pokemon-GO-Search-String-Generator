@@ -260,11 +260,12 @@ button:active { transform: scale(0.98); }
     .toggle-label { font-size: 0.85rem; }
 
     /* 2. Mobile Tooltip: Right-Aligned Modal */
+    /* 2. Mobile Tooltip: Right-Aligned Modal */
     .tooltip-container.active .tooltip-text {
         position: fixed; 
         
-        /* VERTICAL: Center it */
-        top: 50%;
+        /* VERTICAL: Center it (Force override with !important) */
+        top: 50% !important;
         transform: translateY(-50%);
         
         /* HORIZONTAL: Anchor to RIGHT side */
@@ -286,7 +287,6 @@ button:active { transform: scale(0.98); }
         visibility: visible;
         opacity: 1;
     }
-
     /* Hide the arrow on mobile */
     .tooltip-container.active .tooltip-text::after {
         display: none;
