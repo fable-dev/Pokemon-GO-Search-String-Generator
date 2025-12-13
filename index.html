@@ -35,10 +35,16 @@
             </div>
             <textarea id="search-string" readonly placeholder="Select filters below..."></textarea>
             <div class="button-group">
-                <button id="copy-btn" onclick="copyText()">Copy String</button>
-                <button id="reset-btn" onclick="clearAll()">Reset All</button>
+                <button id="copy-btn" onclick="copyText()">Copy</button>
+                <button id="save-btn" style="background-color: #2196F3; color: white;" onclick="saveCurrentString()">Save</button>
+                <button id="reset-btn" onclick="clearAll()">Reset</button>
             </div>
             <span id="copy-feedback">Copied to clipboard!</span>
+            <div id="saved-section" class="saved-container" style="display:none;">
+                <h4>⭐ Saved Searches</h4>
+                <div id="saved-list">
+                    </div>
+            </div>
             <div class="presets-container">
                 <span class="preset-label">Quick Filters:</span>
                 <button class="preset-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
