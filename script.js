@@ -120,3 +120,23 @@ function clearAll() {
     });
     outputBox.value = '';
 }
+
+// --- PRESET LOGIC ---
+
+function applyPreset(presetString) {
+    // 1. Clear existing inputs visually (optional, but cleaner)
+    checkboxes.forEach(box => box.checked = false);
+    textInputs.forEach(input => {
+        if(input.type === 'checkbox') input.checked = false;
+        else input.value = '';
+    });
+
+    // 2. Set the text area value
+    outputBox.value = presetString;
+
+    // 3. Visual feedback (Quick flash of the box)
+    outputBox.style.borderColor = 'var(--primary)';
+    setTimeout(() => {
+        outputBox.style.borderColor = 'var(--border)';
+    }, 300);
+}
