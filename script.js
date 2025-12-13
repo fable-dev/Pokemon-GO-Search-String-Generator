@@ -2,39 +2,58 @@
 const checkboxes = document.querySelectorAll('.filter');
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+// --- THEME LOGIC START ---
+
+// 1. Check if user previously selected dark mode
+const currentTheme = localStorage.getItem('theme');
+
+// 2. If saved theme is 'dark', apply it immediately
+if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggleBtn.textContent = '☀️'; // Change icon to sun
+}
+
+// 3. Listen for click on the toggle button
+themeToggleBtn.addEventListener('click', () => {
+    // Check current attribute
+    let theme = document.documentElement.getAttribute('data-theme');
+    
+    if (theme === 'dark') {
+        // Switch to Light
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggleBtn.textContent = '🌙';
+    } else {
+        // Switch to Dark
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggleBtn.textContent = '☀️';
+    }
+});
+// --- THEME LOGIC END ---
+
 
 // Add event listeners to all checkboxes
 checkboxes.forEach(box => {
     box.addEventListener('change', generateString);
 });
 
-// Function to generate the search string
 function generateString() {
-    // 1. Get all checked checkboxes
     const checkedBoxes = Array.from(checkboxes).filter(box => box.checked);
-    
-    // 2. Map them to their value (e.g., "shiny", "legendary")
     const values = checkedBoxes.map(box => box.value);
-    
-    // 3. Join them with '&' (The AND operator in PoGo)
-    // Example: "shiny&legendary&!traded"
     const searchString = values.join('&');
-    
-    // 4. Update the textarea
     outputBox.value = searchString;
 }
 
-// Function to copy text to clipboard
 function copyText() {
-    if (!outputBox.value) return; // Don't copy empty text
+    if (!outputBox.value) return; 
 
-    // Select the text field
     outputBox.select();
-    outputBox.setSelectionRange(0, 99999); // For mobile devices
+    outputBox.setSelectionRange(0, 99999); 
 
-    // Copy the text
     navigator.clipboard.writeText(outputBox.value).then(() => {
-        // Show feedback message
         copyFeedback.style.opacity = '1';
         setTimeout(() => {
             copyFeedback.style.opacity = '0';
@@ -44,7 +63,6 @@ function copyText() {
     });
 }
 
-// Function to clear all selections
 function clearAll() {
     checkboxes.forEach(box => box.checked = false);
     outputBox.value = '';
