@@ -3,6 +3,7 @@ const checkboxes = document.querySelectorAll('.filter');
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
 const logicToggle = document.getElementById('logic-toggle'); // Checked = AND (&), Unchecked = OR (,)
+const appendToggle = document.getElementById('append-toggle');
 
 // Input Fields
 const inputName = document.getElementById('input-name');
@@ -124,17 +125,32 @@ function clearAll() {
 // --- PRESET LOGIC ---
 
 function applyPreset(presetString) {
-    // 1. Clear existing inputs visually (optional, but cleaner)
-    checkboxes.forEach(box => box.checked = false);
-    textInputs.forEach(input => {
-        if(input.type === 'checkbox') input.checked = false;
-        else input.value = '';
-    });
+    // 1. Check if we should Append or Replace
+    const shouldAppend = appendToggle.checked;
+    const currentText = outputBox.value.trim();
 
-    // 2. Set the text area value
-    outputBox.value = presetString;
+    if (shouldAppend && currentText.length > 0) {
+        // APPEND MODE
+        
+        // Check the *Logic Toggle* to see if we should use '&' or ','
+        // (logicToggle is the main toggle at the top of the page)
+        const separator = logicToggle.checked ? '&' : ',';
+        
+        outputBox.value = currentText + separator + presetString;
+    } else {
+        // REPLACE MODE (Default)
+        
+        // Clear inputs visually
+        checkboxes.forEach(box => box.checked = false);
+        textInputs.forEach(input => {
+            if(input.type === 'checkbox') input.checked = false;
+            else input.value = '';
+        });
 
-    // 3. Visual feedback (Quick flash of the box)
+        outputBox.value = presetString;
+    }
+
+    // 2. Visual feedback (Flash border)
     outputBox.style.borderColor = 'var(--primary)';
     setTimeout(() => {
         outputBox.style.borderColor = 'var(--border)';
