@@ -314,6 +314,8 @@ function renderSavedStrings() {
         const div = document.createElement('div');
         div.className = 'saved-item';
         
+        // In script.js, inside renderSavedStrings() function:
+
         // We inject: Name | [Eye Tooltip] [Copy Btn] [Delete Btn]
         div.innerHTML = `
             <span class="saved-name" onclick="applyPreset('${item.string}')" title="Apply String">${item.name}</span>
@@ -323,7 +325,6 @@ function renderSavedStrings() {
                 <div class="tooltip-container">
                     <span class="mini-btn info-icon" style="background:none; color:inherit; width:auto; height:auto;">👁️</span>
                     <span class="tooltip-text bottom-align right-align code-preview">
-                        <strong>${item.name}</strong><br><hr style="margin:5px 0; border-color:gray;">
                         ${item.string}
                     </span>
                 </div>
