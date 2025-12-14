@@ -490,6 +490,14 @@ footer {
     gap: 5px;
 }
 
+/* Ensure the list has a minimum height so it doesn't collapse too much */
+#saved-list {
+    min-height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 /* Small Icon Buttons for Import/Export */
 .icon-btn {
     background: none;
