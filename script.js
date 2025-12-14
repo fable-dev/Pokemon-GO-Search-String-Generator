@@ -351,10 +351,16 @@ function saveCurrentString() {
 }
 
 function deleteSavedString(index) {
-    let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-    saved.splice(index, 1);
-    localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
-    renderSavedStrings();
+    // 1. Ask for confirmation
+    const confirmDelete = confirm("Are you sure you want to delete this saved search?");
+    
+    // 2. Only delete if they clicked "OK"
+    if (confirmDelete) {
+        let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+        saved.splice(index, 1);
+        localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
+        renderSavedStrings();
+    }
 }
 
 function exportData() {
