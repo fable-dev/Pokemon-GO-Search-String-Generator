@@ -1,38 +1,31 @@
-// DOM Elements
-const checkboxes = document.querySelectorAll('.filter');
+// --- DOM ELEMENTS ---
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
-const logicToggle = document.getElementById('logic-toggle'); // Checked = AND (&)
+const logicToggle = document.getElementById('logic-toggle');   // Checked = AND (&)
 const appendToggle = document.getElementById('append-toggle'); // Checked = Append
+const checkboxes = document.querySelectorAll('.filter');
 
-// Input Fields
+// Text Inputs
 const inputName = document.getElementById('input-name');
 const checkFamily = document.getElementById('check-family');
 const inputAge = document.getElementById('input-age');
 const inputYear = document.getElementById('input-year');
 const inputMove = document.getElementById('input-move');
+// Ranges
 const cpMin = document.getElementById('cp-min');
 const cpMax = document.getElementById('cp-max');
 const distMin = document.getElementById('dist-min');
 const distMax = document.getElementById('dist-max');
 
-const textInputs = [inputName, inputAge, inputYear, inputMove, cpMin, cpMax, distMin, distMax, checkFamily];
+// Group text inputs for easier handling
+const textInputs = [inputName, inputAge, inputYear, inputMove, cpMin, cpMax, distMin, distMax];
 
-// --- THEME LOGIC (Fixed) ---
+// --- THEME LOGIC ---
 const themeToggleBtn = document.getElementById('theme-toggle');
-const themeIcon = document.getElementById('theme-icon');
-
-function updateThemeIcon(theme) {
-    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-// Initialize theme on load
-const currentTheme = localStorage.getItem('theme');
-if (currentTheme === 'dark') {
+// Initial Load
+if (localStorage.getItem('theme') === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
-    updateThemeIcon('dark');
-} else {
-    updateThemeIcon('light');
+    themeToggleBtn.style.backgroundColor = "rgba(255,255,255,0.3)";
 }
 
 themeToggleBtn.addEventListener('click', () => {
@@ -40,36 +33,109 @@ themeToggleBtn.addEventListener('click', () => {
     if (theme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('theme', 'light');
-        updateThemeIcon('light');
     } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('theme', 'dark');
-        updateThemeIcon('dark');
     }
 });
 
 
-// --- GENERATOR LOGIC ---
-// Add listeners
-checkboxes.forEach(box => box.addEventListener('change', () => generateString()));
-textInputs.forEach(input => input.addEventListener('input', () => generateString()));
-logicToggle.addEventListener('change', () => generateString());
+// --- CORE GENERATOR LOGIC ---
 
-// Main generating function (for manual inputs)
-function generateString(isPreset = false) {
-    // If this is triggered by a manual input/click, and Append mode is ON,
-    // we don't want to regenerate the whole string from scratch.
-    // The user is likely trying to build a string piece by piece.
-    // So, if append is ON, we only generate if it's NOT a preset click.
-    if (appendToggle.checked && !isPreset) {
-       // For now, manual inputs will just append to the end. 
-       // A more complex system would be needed to edit existing parts.
-       // Let's keep it simple: Manual inputs clear and restart unless append is off.
+// 1. Checkboxes
+checkboxes.forEach(box => {
+    box.addEventListener('change', (e) => {
+        if (appendToggle.checked) {
+            // APPEND MODE: Treat checkbox like a button
+            if (box.checked) {
+                addTermToOutput(box.value);
+                box.checked = false; // Reset immediately
+            }
+        } else {
+            // REPLACE MODE: Update whole string based on state
+            generateString();
+        }
+    });
+});
+
+// 2. Text Inputs (Name, Age, Year, Move)
+textInputs.forEach(input => {
+    // 'input' fires on every keystroke (Good for Replace Mode)
+    input.addEventListener('input', () => {
+        if (!appendToggle.checked) {
+            generateString();
+        }
+    });
+
+    // 'change' fires on Enter or Blur (Good for Append Mode)
+    input.addEventListener('change', () => {
+        if (appendToggle.checked && input.value.trim() !== "") {
+            handleAppendText(input);
+        }
+    });
+});
+
+
+// Helper to handle specific text input appending
+function handleAppendText(input) {
+    let term = "";
+    
+    // Logic for specific fields
+    if (input === inputName) {
+        term = input.value.trim();
+        if (checkFamily.checked) term = '+' + term;
+    } else if (input === inputAge) {
+        term = `age${input.value}`;
+    } else if (input === inputYear) {
+        term = `year${input.value}`;
+    } else if (input === inputMove) {
+        term = input.value.trim();
+    } else if (input === cpMin || input === cpMax) {
+        // Only append if we have at least one value
+        if (cpMin.value || cpMax.value) {
+            term = `cp${cpMin.value}-${cpMax.value}`;
+            cpMin.value = ""; cpMax.value = ""; // Clear both
+        }
+    } else if (input === distMin || input === distMax) {
+        if (distMin.value || distMax.value) {
+            term = `distance${distMin.value}-${distMax.value}`;
+            distMin.value = ""; distMax.value = ""; // Clear both
+        }
     }
 
+    if (term) {
+        addTermToOutput(term);
+        // Clear the specific input triggered (Ranges are cleared above)
+        if (input !== cpMin && input !== cpMax && input !== distMin && input !== distMax) {
+            input.value = "";
+        }
+    }
+}
+
+
+// --- GENERATOR FUNCTIONS ---
+
+// Adds a single term to the existing string (Append Mode)
+function addTermToOutput(term) {
+    const currentText = outputBox.value.trim();
+    const separator = logicToggle.checked ? '&' : ',';
+    
+    if (currentText.length > 0) {
+        outputBox.value = currentText + separator + term;
+    } else {
+        outputBox.value = term;
+    }
+    
+    // Visual Feedback
+    outputBox.style.borderColor = 'var(--primary)';
+    setTimeout(() => outputBox.style.borderColor = 'var(--border)', 300);
+}
+
+// Regenerates the entire string from scratch (Replace Mode)
+function generateString() {
     let terms = [];
 
-    // 1. Process Text Inputs
+    // Text Inputs
     if (inputName.value.trim()) {
         let val = inputName.value.trim();
         if (checkFamily.checked) val = '+' + val;
@@ -81,36 +147,25 @@ function generateString(isPreset = false) {
     if (cpMin.value || cpMax.value) terms.push(`cp${cpMin.value || ''}-${cpMax.value || ''}`);
     if (distMin.value || distMax.value) terms.push(`distance${distMin.value || ''}-${distMax.value || ''}`);
 
-    // 2. Process Checkboxes
+    // Checkboxes
     Array.from(checkboxes).filter(box => box.checked).forEach(box => terms.push(box.value));
 
-    // 3. Join logic
+    // Join
     const separator = logicToggle.checked ? '&' : ',';
     outputBox.value = terms.join(separator);
 }
 
-// --- PRESET LOGIC (Smarter) ---
+// --- PRESET LOGIC ---
 function applyPreset(presetString) {
-    const shouldAppend = appendToggle.checked;
-    const currentText = outputBox.value.trim();
-
-    if (shouldAppend && currentText.length > 0) {
-        // APPEND MODE: Add to existing text using selected logic
-        const separator = logicToggle.checked ? '&' : ',';
-        outputBox.value = currentText + separator + presetString;
+    if (appendToggle.checked) {
+        addTermToOutput(presetString);
     } else {
-        // REPLACE MODE: Clear everything and set new text
-        clearAll(false); // Don't clear outputbox yet
+        clearAll(false);
         outputBox.value = presetString;
     }
-
-    // Visual feedback
-    outputBox.style.borderColor = 'var(--primary)';
-    setTimeout(() => outputBox.style.borderColor = 'var(--border)', 300);
 }
 
-
-// --- UTILITY FUNCTIONS ---
+// --- UTILITIES ---
 function copyText() {
     if (!outputBox.value) return; 
     outputBox.select();
@@ -123,15 +178,13 @@ function copyText() {
 
 function clearAll(clearOutput = true) {
     checkboxes.forEach(box => box.checked = false);
-    textInputs.forEach(input => {
-        if(input.type === 'checkbox') input.checked = false;
-        else input.value = '';
-    });
+    textInputs.forEach(input => input.value = '');
+    checkFamily.checked = false;
     if (clearOutput) outputBox.value = '';
 }
 
 
-// --- SAVED STRINGS LOGIC ---
+// --- SAVED SEARCHES & IMPORT/EXPORT ---
 const savedSection = document.getElementById('saved-section');
 const savedList = document.getElementById('saved-list');
 
@@ -151,21 +204,14 @@ function saveCurrentString() {
 
 function renderSavedStrings() {
     const saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-
-    // FIX: Always show the section so Import/Export buttons are accessible
     savedSection.style.display = 'block';
     savedList.innerHTML = '';
 
-    // Handle Empty State
     if (saved.length === 0) {
-        savedList.innerHTML = `
-            <p style="text-align: center; font-style: italic; opacity: 0.6; font-size: 0.85rem; margin: 10px 0;">
-                No saved searches yet.
-            </p>`;
+        savedList.innerHTML = `<p style="text-align: center; font-style: italic; opacity: 0.6; font-size: 0.85rem; margin: 10px 0;">No saved searches yet.</p>`;
         return;
     }
 
-    // Render List
     saved.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'saved-item';
@@ -184,104 +230,61 @@ function deleteSavedString(index) {
     renderSavedStrings();
 }
 
-// --- TOOLTIP LOGIC (Mobile Tap vs Desktop Hover) ---
-const tooltips = document.querySelectorAll('.tooltip-container');
-
-tooltips.forEach(container => {
-    const icon = container.querySelector('.info-icon');
-    if (!icon) return;
-
-    icon.addEventListener('click', (e) => {
-        // CHECK: If screen is wider than 600px (Desktop/Tablet), IGNORE CLICKS.
-        // This ensures desktop only uses CSS :hover.
-        if (window.innerWidth > 600) return;
-
-        // Mobile Logic:
-        e.stopPropagation(); // Stop click from bubbling
-        
-        // Close other tooltips first
-        tooltips.forEach(t => t.classList.remove('active'));
-
-        // Toggle this one
-        container.classList.toggle('active');
-    });
-});
-
-// Close tooltips if tapping background (Mobile only)
-document.addEventListener('click', () => {
-    tooltips.forEach(t => t.classList.remove('active'));
-});
-
-// --- IMPORT / EXPORT LOGIC ---
-
 function exportData() {
     const saved = localStorage.getItem('pogoSavedStrings');
-    if (!saved || JSON.parse(saved).length === 0) {
-        alert("No saved searches to export!");
-        return;
-    }
-
-    // Create a Blob from the data
+    if (!saved || JSON.parse(saved).length === 0) { alert("No saved searches to export!"); return; }
     const blob = new Blob([saved], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
-    // Create a temporary link to trigger download
     const a = document.createElement('a');
     a.href = url;
     a.download = `pogo-search-backup-${new Date().toISOString().slice(0,10)}.json`;
     document.body.appendChild(a);
     a.click();
-    
-    // Cleanup
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
 
-function triggerImport() {
-    document.getElementById('import-file').click();
-}
+function triggerImport() { document.getElementById('import-file').click(); }
 
 function importData(input) {
     const file = input.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
             const importedData = JSON.parse(e.target.result);
-
-            // Basic Validation: Must be an array
-            if (!Array.isArray(importedData)) {
-                throw new Error("Invalid format");
-            }
-
-            // Merge logic: Ask user? Or just Append?
-            // Let's Append safely (checking for duplicates)
+            if (!Array.isArray(importedData)) throw new Error("Invalid format");
             let currentData = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-            
             let addedCount = 0;
             importedData.forEach(newItem => {
-                // Check if string already exists to avoid duplicates
                 const exists = currentData.some(existing => existing.string === newItem.string);
                 if (!exists && newItem.name && newItem.string) {
                     currentData.push(newItem);
                     addedCount++;
                 }
             });
-
-            // Save back
             localStorage.setItem('pogoSavedStrings', JSON.stringify(currentData));
             renderSavedStrings();
-            
             alert(`Successfully imported ${addedCount} new searches!`);
-
-        } catch (err) {
-            alert("Error importing file: Invalid JSON format.");
-            console.error(err);
-        }
-        
-        // Reset input so you can import the same file again if needed
+        } catch (err) { alert("Error importing file: Invalid JSON."); }
         input.value = '';
     };
     reader.readAsText(file);
 }
+
+
+// --- TOOLTIP LOGIC (Mobile Tap vs Desktop Hover) ---
+const tooltips = document.querySelectorAll('.tooltip-container');
+tooltips.forEach(container => {
+    const icon = container.querySelector('.info-icon');
+    if (!icon) return;
+    icon.addEventListener('click', (e) => {
+        if (window.innerWidth > 600) return; // Desktop uses CSS hover
+        e.stopPropagation(); 
+        tooltips.forEach(t => t.classList.remove('active'));
+        container.classList.toggle('active');
+    });
+});
+document.addEventListener('click', () => {
+    tooltips.forEach(t => t.classList.remove('active'));
+});
