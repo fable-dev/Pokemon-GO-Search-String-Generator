@@ -510,6 +510,7 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     white-space: pre-wrap; /* Preserve formatting */
     font-family: monospace;
     font-size: 0.75rem;
+    text-align: left; /* <-- ADD THIS LINE to force left alignment */
 }
 
 /* On Mobile, ensure the preview modal scrolls if text is huge */
