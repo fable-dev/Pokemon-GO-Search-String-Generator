@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PoGo Search Generator Pro</title>
+    
     <meta name="description" content="Advanced search string generator for Pokémon GO. Filter by IVs, age, distance, moves, and more. Offline capable & mobile friendly.">
     <meta name="theme-color" content="#d32f2f">
     
@@ -16,6 +17,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="PokeSearch Pro">
     <meta property="twitter:description" content="The ultimate tool for managing your Pokémon GO storage.">
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ef5350'/><path d='M0 50 L100 50' stroke='%23333' stroke-width='10'/><circle cx='50' cy='50' r='50' fill='white' clip-path='inset(50% 0 0 0)'/><circle cx='50' cy='50' r='18' fill='white' stroke='%23333' stroke-width='8'/></svg>">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -57,7 +59,9 @@
                     </span>
                 </div>
             </div>
+
             <textarea id="search-string" placeholder="Type here or select filters below..."></textarea>            
+            
             <div class="button-group">
                 <button id="copy-btn" onclick="copyText()">Copy</button>
                 <button id="save-btn" class="action-btn" onclick="saveCurrentString()">Save</button>
@@ -98,19 +102,20 @@
                     </div>
                 </div>
                 <div class="presets-list">
-                    <button class="preset-btn trash-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">🗑️ Trash (Safe)</button>
-                    <button class="preset-btn" onclick="applyPreset('4*')">✨ 100% IV</button>
-                    <button class="preset-btn" onclick="applyPreset('0attack&0defense&0hp')">💩 Nundo</button>
-                    <button class="preset-btn" onclick="applyPreset('age0')">📅 Caught Today</button>
-                    <button class="preset-btn" onclick="applyPreset('age365-&!lucky')">🤝 Old Trade</button>
-                    <button class="preset-btn trash-btn" onclick="applyPreset('age0&!shiny&!4*&!shadow&0*,1*,2*')">🧹 CommDay Trash</button>
-                    <button class="preset-btn trade-btn" onclick="applyPreset('distance100-')">✈️ Dist. Trade</button>
-                    <button class="preset-btn trade-btn" onclick="applyPreset('0*,1*,2*&!shiny&!legendary&!mythical&!ultra beast')">🔄 Mirror Trade</button>
+                    <button class="preset-btn trash-btn" onclick="applyPreset('!shiny&!legendary&!mythical&!4*&!shadow&!ultra beast&!costume&0*,1*,2*')">Trash (Safe)</button>
+                    <button class="preset-btn" onclick="applyPreset('4*')">100% IV</button>
+                    <button class="preset-btn" onclick="applyPreset('0attack&0defense&0hp')">Nundo</button>
+                    <button class="preset-btn" onclick="applyPreset('age0')">Caught Today</button>
+                    <button class="preset-btn" onclick="applyPreset('age365-&!lucky')">Old Trade</button>
+                    <button class="preset-btn trash-btn" onclick="applyPreset('age0&!shiny&!4*&!shadow&0*,1*,2*')">CommDay Trash</button>
+                    <button class="preset-btn trade-btn" onclick="applyPreset('distance100-')">Dist. Trade</button>
+                    <button class="preset-btn trade-btn" onclick="applyPreset('0*,1*,2*&!shiny&!legendary&!mythical&!ultra beast')">Mirror Trade</button>
                 </div>
             </div>
         </section>
 
         <section class="inputs-grid">
+            
             <div class="input-group">
                 <label>Pokémon Name</label>
                 <div class="input-row input-with-btn">
@@ -186,27 +191,119 @@
                 </div>
             </div>
         </section>
+
         <hr class="divider">
+
         <div class="filters-container">
-            <details open><summary>Appraisal (Stars)</summary><div class="filters-grid"><label><input type="checkbox" value="4*" class="filter"> 4* (100%)</label><label><input type="checkbox" value="3*" class="filter"> 3*</label><label><input type="checkbox" value="2*" class="filter"> 2*</label><label><input type="checkbox" value="1*" class="filter"> 1*</label><label><input type="checkbox" value="0*" class="filter"> 0*</label><label><input type="checkbox" value="!4*" class="filter"> Not 4*</label></div></details>
-            <details><summary>Status & Attributes</summary><div class="filters-grid"><label><input type="checkbox" value="shiny" class="filter"> Shiny</label><label><input type="checkbox" value="!shiny" class="filter"> Not Shiny</label><label><input type="checkbox" value="lucky" class="filter"> Lucky</label><label><input type="checkbox" value="shadow" class="filter"> Shadow</label><label><input type="checkbox" value="purified" class="filter"> Purified</label><label><input type="checkbox" value="costume" class="filter"> Costume</label><label><input type="checkbox" value="!costume" class="filter"> Not Costume</label><label><input type="checkbox" value="favorite" class="filter"> Favorite</label></div></details>
-            <details><summary>Rarity & Type</summary><div class="filters-grid"><label><input type="checkbox" value="legendary" class="filter"> Legendary</label><label><input type="checkbox" value="mythical" class="filter"> Mythical</label><label><input type="checkbox" value="ultra beast" class="filter"> Ultra Beast</label></div></details>
-            <details><summary>Regions</summary><div class="filters-grid"><label><input type="checkbox" value="kanto" class="filter"> Kanto</label><label><input type="checkbox" value="johto" class="filter"> Johto</label><label><input type="checkbox" value="hoenn" class="filter"> Hoenn</label><label><input type="checkbox" value="sinnoh" class="filter"> Sinnoh</label><label><input type="checkbox" value="unova" class="filter"> Unova</label><label><input type="checkbox" value="kalos" class="filter"> Kalos</label><label><input type="checkbox" value="alola" class="filter"> Alola</label><label><input type="checkbox" value="galar" class="filter"> Galar</label><label><input type="checkbox" value="paldea" class="filter"> Paldea</label></div></details>
-            <details><summary>Evolution & Breeding</summary><div class="filters-grid"><label><input type="checkbox" value="evolve" class="filter"> Can Evolve</label><label><input type="checkbox" value="evolvenew" class="filter"> New Evolve</label><label><input type="checkbox" value="megaevolve" class="filter"> Can Mega</label><label><input type="checkbox" value="tradeevolve" class="filter"> Trade Evolve</label><label><input type="checkbox" value="item" class="filter"> Item Evolve</label><label><input type="checkbox" value="eggsonly" class="filter"> Baby (Eggs Only)</label><label><input type="checkbox" value="hatched" class="filter"> Hatched</label></div></details>
-            <details><summary>Buddy & Mega Levels</summary><div class="filters-grid"><label><input type="checkbox" value="buddy0" class="filter"> Buddy 0 (None)</label><label><input type="checkbox" value="buddy1" class="filter"> Buddy 1</label><label><input type="checkbox" value="buddy2" class="filter"> Buddy 2</label><label><input type="checkbox" value="buddy3" class="filter"> Buddy 3</label><label><input type="checkbox" value="buddy4" class="filter"> Buddy 4</label><label><input type="checkbox" value="buddy5" class="filter"> Buddy 5 (Best)</label><label><input type="checkbox" value="mega1" class="filter"> Mega Base</label><label><input type="checkbox" value="mega2" class="filter"> Mega High</label><label><input type="checkbox" value="mega3" class="filter"> Mega Max</label></div></details>
-            <details><summary>Size & Gender</summary><div class="filters-grid"><label><input type="checkbox" value="xxs" class="filter"> XXS</label><label><input type="checkbox" value="xs" class="filter"> XS</label><label><input type="checkbox" value="xl" class="filter"> XL</label><label><input type="checkbox" value="xxl" class="filter"> XXL</label><label><input type="checkbox" value="male" class="filter"> Male</label><label><input type="checkbox" value="female" class="filter"> Female</label><label><input type="checkbox" value="genderunknown" class="filter"> Gender Unknown</label></div></details>
-            <details><summary>Moves, Raids & Misc</summary><div class="filters-grid"><label><input type="checkbox" value="@special" class="filter"> Special Move</label><label><input type="checkbox" value="@weather" class="filter"> Weather Boost</label><label><input type="checkbox" value="traded" class="filter"> Traded</label><label><input type="checkbox" value="!traded" class="filter"> Not Traded</label><label><input type="checkbox" value="defender" class="filter"> Gym Defender</label><label><input type="checkbox" value="gbl" class="filter"> GBL Reward</label><label><input type="checkbox" value="raid" class="filter"> Raid</label><label><input type="checkbox" value="remoteraid" class="filter"> Remote Raid</label><label><input type="checkbox" value="snapshot" class="filter"> Snapshot</label><label><input type="checkbox" value="locationbackground" class="filter"> Location BG</label><label><input type="checkbox" value="specialbackground" class="filter"> Special BG</label></div></details>
+            <details open>
+                <summary>Appraisal (Stars)</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="4*" class="filter"> 4* (100%)</label>
+                    <label><input type="checkbox" value="3*" class="filter"> 3*</label>
+                    <label><input type="checkbox" value="2*" class="filter"> 2*</label>
+                    <label><input type="checkbox" value="1*" class="filter"> 1*</label>
+                    <label><input type="checkbox" value="0*" class="filter"> 0*</label>
+                    <label><input type="checkbox" value="!4*" class="filter"> Not 4*</label>
+                </div>
+            </details>
+            <details>
+                <summary>Status & Attributes</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="shiny" class="filter"> Shiny</label>
+                    <label><input type="checkbox" value="!shiny" class="filter"> Not Shiny</label>
+                    <label><input type="checkbox" value="lucky" class="filter"> Lucky</label>
+                    <label><input type="checkbox" value="shadow" class="filter"> Shadow</label>
+                    <label><input type="checkbox" value="purified" class="filter"> Purified</label>
+                    <label><input type="checkbox" value="costume" class="filter"> Costume</label>
+                    <label><input type="checkbox" value="!costume" class="filter"> Not Costume</label>
+                    <label><input type="checkbox" value="favorite" class="filter"> Favorite</label>
+                </div>
+            </details>
+            <details>
+                <summary>Rarity & Type</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="legendary" class="filter"> Legendary</label>
+                    <label><input type="checkbox" value="mythical" class="filter"> Mythical</label>
+                    <label><input type="checkbox" value="ultra beast" class="filter"> Ultra Beast</label>
+                </div>
+            </details>
+            <details>
+                <summary>Regions</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="kanto" class="filter"> Kanto</label>
+                    <label><input type="checkbox" value="johto" class="filter"> Johto</label>
+                    <label><input type="checkbox" value="hoenn" class="filter"> Hoenn</label>
+                    <label><input type="checkbox" value="sinnoh" class="filter"> Sinnoh</label>
+                    <label><input type="checkbox" value="unova" class="filter"> Unova</label>
+                    <label><input type="checkbox" value="kalos" class="filter"> Kalos</label>
+                    <label><input type="checkbox" value="alola" class="filter"> Alola</label>
+                    <label><input type="checkbox" value="galar" class="filter"> Galar</label>
+                    <label><input type="checkbox" value="paldea" class="filter"> Paldea</label>
+                </div>
+            </details>
+            <details>
+                <summary>Evolution & Breeding</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="evolve" class="filter"> Can Evolve</label>
+                    <label><input type="checkbox" value="evolvenew" class="filter"> New Evolve</label>
+                    <label><input type="checkbox" value="megaevolve" class="filter"> Can Mega</label>
+                    <label><input type="checkbox" value="tradeevolve" class="filter"> Trade Evolve</label>
+                    <label><input type="checkbox" value="item" class="filter"> Item Evolve</label>
+                    <label><input type="checkbox" value="eggsonly" class="filter"> Baby (Eggs Only)</label>
+                    <label><input type="checkbox" value="hatched" class="filter"> Hatched</label>
+                </div>
+            </details>
+            <details>
+                <summary>Buddy & Mega Levels</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="buddy0" class="filter"> Buddy 0 (None)</label>
+                    <label><input type="checkbox" value="buddy1" class="filter"> Buddy 1</label>
+                    <label><input type="checkbox" value="buddy2" class="filter"> Buddy 2</label>
+                    <label><input type="checkbox" value="buddy3" class="filter"> Buddy 3</label>
+                    <label><input type="checkbox" value="buddy4" class="filter"> Buddy 4</label>
+                    <label><input type="checkbox" value="buddy5" class="filter"> Buddy 5 (Best)</label>
+                    <label><input type="checkbox" value="mega1" class="filter"> Mega Base</label>
+                    <label><input type="checkbox" value="mega2" class="filter"> Mega High</label>
+                    <label><input type="checkbox" value="mega3" class="filter"> Mega Max</label>
+                </div>
+            </details>
+            <details>
+                <summary>Size & Gender</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="xxs" class="filter"> XXS</label>
+                    <label><input type="checkbox" value="xs" class="filter"> XS</label>
+                    <label><input type="checkbox" value="xl" class="filter"> XL</label>
+                    <label><input type="checkbox" value="xxl" class="filter"> XXL</label>
+                    <label><input type="checkbox" value="male" class="filter"> Male</label>
+                    <label><input type="checkbox" value="female" class="filter"> Female</label>
+                    <label><input type="checkbox" value="genderunknown" class="filter"> Gender Unknown</label>
+                </div>
+            </details>
+            <details>
+                <summary>Moves, Raids & Misc</summary>
+                <div class="filters-grid">
+                    <label><input type="checkbox" value="@special" class="filter"> Special Move</label>
+                    <label><input type="checkbox" value="@weather" class="filter"> Weather Boost</label>
+                    <label><input type="checkbox" value="traded" class="filter"> Traded</label>
+                    <label><input type="checkbox" value="!traded" class="filter"> Not Traded</label>
+                    <label><input type="checkbox" value="defender" class="filter"> Gym Defender</label>
+                    <label><input type="checkbox" value="gbl" class="filter"> GBL Reward</label>
+                    <label><input type="checkbox" value="raid" class="filter"> Raid</label>
+                    <label><input type="checkbox" value="remoteraid" class="filter"> Remote Raid</label>
+                    <label><input type="checkbox" value="snapshot" class="filter"> Snapshot</label>
+                    <label><input type="checkbox" value="locationbackground" class="filter"> Location BG</label>
+                    <label><input type="checkbox" value="specialbackground" class="filter"> Special BG</label>
+                </div>
+            </details>
         </div>
     </main>
+
     <footer>
-        
         <details class="cheatsheet">
             <summary>📜 Search Command Cheatsheet</summary>
             <div class="cheatsheet-content">
                 <p class="sheet-intro">Quick reference for manual typing:</p>
-                
                 <div class="sheet-grid">
-                    
                     <div class="sheet-group">
                         <h5>Logic & Operators</h5>
                         <ul>
@@ -215,7 +312,6 @@
                             <li><code>!</code> <span>NOT (e.g. !shiny)</span></li>
                         </ul>
                     </div>
-
                     <div class="sheet-group">
                         <h5>Time & Distance</h5>
                         <ul>
@@ -225,7 +321,6 @@
                             <li><code>distance100-</code> <span>Caught 100km+ away</span></li>
                         </ul>
                     </div>
-
                     <div class="sheet-group">
                         <h5>IVs & Stats</h5>
                         <ul>
@@ -235,7 +330,6 @@
                             <li><code>cp-1500</code> <span>CP 1500 or lower</span></li>
                         </ul>
                     </div>
-
                     <div class="sheet-group">
                         <h5>Moves & Misc</h5>
                         <ul>
@@ -245,13 +339,12 @@
                             <li><code>evolvenew</code> <span>New Pokédex Entry</span></li>
                         </ul>
                     </div>
-
                 </div>
             </div>
         </details>
-
         <p class="copyright">Built for Pokémon GO Trainers</p>
     </footer>
+
     <div id="update-modal" class="modal-backdrop" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
@@ -271,13 +364,16 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
     <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Service Worker Registered'))
-            .catch((err) => console.log('Service Worker Failed', err));
-    }
-</script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch((err) => console.log('Service Worker Failed', err));
+        }
+    </script>
+
 </body>
 </html>
