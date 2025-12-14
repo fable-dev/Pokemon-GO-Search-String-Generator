@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const CACHE_NAME = 'pogo-search-v1.1'; // UPDATE THIS ID WHEN YOU PUSH A NEW VERSION
+const CACHE_NAME = 'pogo-search-v1.0'; // UPDATE THIS ID WHEN YOU PUSH A NEW VERSION
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
