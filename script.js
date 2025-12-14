@@ -200,3 +200,77 @@ tooltips.forEach(container => {
 document.addEventListener('click', () => {
     tooltips.forEach(t => t.classList.remove('active'));
 });
+
+// --- IMPORT / EXPORT LOGIC ---
+
+function exportData() {
+    const saved = localStorage.getItem('pogoSavedStrings');
+    if (!saved || JSON.parse(saved).length === 0) {
+        alert("No saved searches to export!");
+        return;
+    }
+
+    // Create a Blob from the data
+    const blob = new Blob([saved], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary link to trigger download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pogo-search-backup-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function triggerImport() {
+    document.getElementById('import-file').click();
+}
+
+function importData(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+
+            // Basic Validation: Must be an array
+            if (!Array.isArray(importedData)) {
+                throw new Error("Invalid format");
+            }
+
+            // Merge logic: Ask user? Or just Append?
+            // Let's Append safely (checking for duplicates)
+            let currentData = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+            
+            let addedCount = 0;
+            importedData.forEach(newItem => {
+                // Check if string already exists to avoid duplicates
+                const exists = currentData.some(existing => existing.string === newItem.string);
+                if (!exists && newItem.name && newItem.string) {
+                    currentData.push(newItem);
+                    addedCount++;
+                }
+            });
+
+            // Save back
+            localStorage.setItem('pogoSavedStrings', JSON.stringify(currentData));
+            renderSavedStrings();
+            
+            alert(`Successfully imported ${addedCount} new searches!`);
+
+        } catch (err) {
+            alert("Error importing file: Invalid JSON format.");
+            console.error(err);
+        }
+        
+        // Reset input so you can import the same file again if needed
+        input.value = '';
+    };
+    reader.readAsText(file);
+}
