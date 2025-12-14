@@ -1,92 +1,135 @@
-const CURRENT_VERSION = '1.1'; // Change this number when you push major updates
-// --- DOM ELEMENTS ---
+/* =========================================
+   1. CONFIGURATION & SELECTORS
+   ========================================= */
+const CURRENT_VERSION = '1.1'; // Update this to force Modal on new features
+
+// Output & Toggles
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
 const logicToggle = document.getElementById('logic-toggle');   // Checked = AND (&)
 const appendToggle = document.getElementById('append-toggle'); // Checked = Append
-const checkboxes = document.querySelectorAll('.filter');
 
-// Text Inputs
+// Inputs
 const inputName = document.getElementById('input-name');
 const checkFamily = document.getElementById('check-family');
 const inputAge = document.getElementById('input-age');
 const inputYear = document.getElementById('input-year');
 const inputMove = document.getElementById('input-move');
+
 // Ranges
 const cpMin = document.getElementById('cp-min');
 const cpMax = document.getElementById('cp-max');
 const distMin = document.getElementById('dist-min');
 const distMax = document.getElementById('dist-max');
 
-// Group text inputs for easier handling
+// Grouping for iteration
+const checkboxes = document.querySelectorAll('.filter');
 const textInputs = [inputName, inputAge, inputYear, inputMove, cpMin, cpMax, distMin, distMax];
 
-// --- THEME LOGIC ---
+// Theme
 const themeToggleBtn = document.getElementById('theme-toggle');
-// Initial Load
-if (localStorage.getItem('theme') === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    themeToggleBtn.style.backgroundColor = "rgba(255,255,255,0.3)";
-}
+const themeIcon = document.getElementById('theme-icon');
 
-themeToggleBtn.addEventListener('click', () => {
-    let theme = document.documentElement.getAttribute('data-theme');
-    if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
+// Modals & Saved Areas
+const savedSection = document.getElementById('saved-section');
+const savedList = document.getElementById('saved-list');
+const updateModal = document.getElementById('update-modal');
+
+
+/* =========================================
+   2. INITIALIZATION
+   ========================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    renderSavedStrings();
+    checkVersion();
 });
 
 
-// --- CORE GENERATOR LOGIC ---
+/* =========================================
+   3. EVENT LISTENERS
+   ========================================= */
 
-// 1. Checkboxes (Keep these auto-updating for Append/Replace)
+// Theme Toggle
+themeToggleBtn.addEventListener('click', toggleTheme);
+
+// Checkboxes (Filter Toggles)
 checkboxes.forEach(box => {
-    box.addEventListener('change', (e) => {
+    box.addEventListener('change', () => {
         if (appendToggle.checked) {
+            // Append Mode: Act like a button
             if (box.checked) {
                 addTermToOutput(box.value);
                 box.checked = false; 
             }
         } else {
-            // In Replace mode, checkboxes still toggle logic on/off in the big string? 
-            // Actually, based on your request, you likely want full manual control.
-            // But usually checkboxes are instant. Let's keep checkboxes instant for now.
+            // Replace Mode: Live update (optional, usually safer to generate fresh)
             generateString();
         }
     });
 });
 
-// 2. Text Inputs: REMOVE 'input' listeners. ONLY use Enter key.
+// Text Inputs: Listen for 'Enter' key
 textInputs.forEach(input => {
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // Stop form submission if any
-            
-            // Identify which type of input this is based on ID
-            if (input === inputName) triggerAdd('name');
-            else if (input === inputAge) triggerAdd('age');
-            else if (input === inputYear) triggerAdd('year');
-            else if (input === inputMove) triggerAdd('move');
-            else if (input === cpMin || input === cpMax) triggerAdd('cp');
-            else if (input === distMin || input === distMax) triggerAdd('distance');
+            e.preventDefault();
+            handleEnterKey(input);
         }
     });
 });
 
+// Mobile Tooltips (Tap Logic)
+const tooltips = document.querySelectorAll('.tooltip-container');
+tooltips.forEach(container => {
+    const icon = container.querySelector('.info-icon');
+    if (!icon) return;
+    
+    icon.addEventListener('click', (e) => {
+        if (window.innerWidth > 600) return; // Desktop uses CSS hover
+        e.stopPropagation(); 
+        
+        // Close others
+        tooltips.forEach(t => t.classList.remove('active'));
+        // Toggle current
+        container.classList.toggle('active');
+    });
+});
 
-// --- MANUAL TRIGGER FUNCTION (The + Button) ---
+// Close tooltips when clicking background
+document.addEventListener('click', () => {
+    tooltips.forEach(t => t.classList.remove('active'));
+});
+
+// Close Modal on outside click
+window.addEventListener('click', (e) => {
+    if (e.target === updateModal) closeModal();
+});
+
+
+/* =========================================
+   4. CORE GENERATOR LOGIC
+   ========================================= */
+
+// Routing function for 'Enter' key on inputs
+function handleEnterKey(input) {
+    if (input === inputName) triggerAdd('name');
+    else if (input === inputAge) triggerAdd('age');
+    else if (input === inputYear) triggerAdd('year');
+    else if (input === inputMove) triggerAdd('move');
+    else if (input === cpMin || input === cpMax) triggerAdd('cp');
+    else if (input === distMin || input === distMax) triggerAdd('distance');
+}
+
+// Main Logic to Process Input -> String
 function triggerAdd(type) {
     let term = "";
 
-    // 1. Determine the search term based on type
+    // 1. Determine term based on input type
     if (type === 'name') {
         const val = inputName.value.trim();
         if (val) term = checkFamily.checked ? '+' + val : val;
-        inputName.value = ""; // Clear after add
+        inputName.value = "";
     } 
     else if (type === 'age') {
         if (inputAge.value) {
@@ -119,24 +162,18 @@ function triggerAdd(type) {
         }
     }
 
-    if (!term) return; // Do nothing if empty
+    if (!term) return; // Exit if empty
 
-    // 2. Add to Output (Respecting Toggle)
+    // 2. Output based on Toggle
     if (appendToggle.checked) {
         addTermToOutput(term);
     } else {
-        // Replace Mode:
-        // If the user manually clicks "+", they probably expect it to 
-        // become the *only* thing in the box (Replace).
+        // Replace Mode: Clear and set
         clearAll(false);
         outputBox.value = term;
     }
 }
 
-
-// --- GENERATOR FUNCTIONS ---
-
-// Adds a single term to the existing string (Append Mode)
 function addTermToOutput(term) {
     const currentText = outputBox.value.trim();
     const separator = logicToggle.checked ? '&' : ',';
@@ -152,23 +189,14 @@ function addTermToOutput(term) {
     setTimeout(() => outputBox.style.borderColor = 'var(--border)', 300);
 }
 
-// Regenerates the entire string from scratch (Replace Mode)
+// For Replace Mode Checkboxes
 function generateString() {
     let terms = [];
 
-    // Text Inputs
-    if (inputName.value.trim()) {
-        let val = inputName.value.trim();
-        if (checkFamily.checked) val = '+' + val;
-        terms.push(val);
-    }
-    if (inputAge.value) terms.push(`age${inputAge.value}`);
-    if (inputYear.value) terms.push(`year${inputYear.value}`);
-    if (inputMove.value.trim()) terms.push(inputMove.value.trim());
-    if (cpMin.value || cpMax.value) terms.push(`cp${cpMin.value || ''}-${cpMax.value || ''}`);
-    if (distMin.value || distMax.value) terms.push(`distance${distMin.value || ''}-${distMax.value || ''}`);
-
-    // Checkboxes
+    // Note: In Replace Mode, we usually want manual inputs to be distinct actions.
+    // But if you want checkboxes to build a string mixed with current text inputs:
+    
+    // Process Checkboxes
     Array.from(checkboxes).filter(box => box.checked).forEach(box => terms.push(box.value));
 
     // Join
@@ -176,7 +204,6 @@ function generateString() {
     outputBox.value = terms.join(separator);
 }
 
-// --- PRESET LOGIC ---
 function applyPreset(presetString) {
     if (appendToggle.checked) {
         addTermToOutput(presetString);
@@ -186,7 +213,11 @@ function applyPreset(presetString) {
     }
 }
 
-// --- UTILITIES ---
+
+/* =========================================
+   5. UI UTILITIES
+   ========================================= */
+
 function copyText() {
     if (!outputBox.value) return; 
     outputBox.select();
@@ -204,27 +235,53 @@ function clearAll(clearOutput = true) {
     if (clearOutput) outputBox.value = '';
 }
 
-
-// --- SAVED SEARCHES & IMPORT/EXPORT ---
-const savedSection = document.getElementById('saved-section');
-const savedList = document.getElementById('saved-list');
-
-document.addEventListener('DOMContentLoaded', renderSavedStrings);
-
-function saveCurrentString() {
-    const currentString = outputBox.value.trim();
-    if (!currentString) { alert("Create a search string first!"); return; }
-    const name = prompt("Name this search (e.g. 'Trade Cleanup'):");
-    if (!name) return;
-
-    let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-    saved.push({ name: name, string: currentString });
-    localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
-    renderSavedStrings();
+// Theme Handling
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeIcon.textContent = '🌙';
+    }
 }
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    if (current === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeIcon.textContent = '🌙';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+}
+
+// Modal Handling
+function checkVersion() {
+    const savedVersion = localStorage.getItem('pogoVersion');
+    if (savedVersion !== CURRENT_VERSION) {
+        updateModal.style.display = 'flex';
+    }
+}
+
+function closeModal() {
+    updateModal.style.display = 'none';
+    localStorage.setItem('pogoVersion', CURRENT_VERSION);
+}
+
+
+/* =========================================
+   6. SAVED SEARCHES & IMPORT/EXPORT
+   ========================================= */
 
 function renderSavedStrings() {
     const saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+    
+    // Always show section (for Import/Export access)
     savedSection.style.display = 'block';
     savedList.innerHTML = '';
 
@@ -244,6 +301,19 @@ function renderSavedStrings() {
     });
 }
 
+function saveCurrentString() {
+    const currentString = outputBox.value.trim();
+    if (!currentString) { alert("Create a search string first!"); return; }
+    
+    const name = prompt("Name this search (e.g. 'Trade Cleanup'):");
+    if (!name) return;
+
+    let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
+    saved.push({ name: name, string: currentString });
+    localStorage.setItem('pogoSavedStrings', JSON.stringify(saved));
+    renderSavedStrings();
+}
+
 function deleteSavedString(index) {
     let saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
     saved.splice(index, 1);
@@ -254,9 +324,11 @@ function deleteSavedString(index) {
 function exportData() {
     const saved = localStorage.getItem('pogoSavedStrings');
     if (!saved || JSON.parse(saved).length === 0) { alert("No saved searches to export!"); return; }
+    
     const blob = new Blob([saved], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    
     a.href = url;
     a.download = `pogo-search-backup-${new Date().toISOString().slice(0,10)}.json`;
     document.body.appendChild(a);
@@ -265,18 +337,23 @@ function exportData() {
     URL.revokeObjectURL(url);
 }
 
-function triggerImport() { document.getElementById('import-file').click(); }
+function triggerImport() { 
+    document.getElementById('import-file').click(); 
+}
 
 function importData(input) {
     const file = input.files[0];
     if (!file) return;
+    
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
             const importedData = JSON.parse(e.target.result);
             if (!Array.isArray(importedData)) throw new Error("Invalid format");
+            
             let currentData = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
             let addedCount = 0;
+            
             importedData.forEach(newItem => {
                 const exists = currentData.some(existing => existing.string === newItem.string);
                 if (!exists && newItem.name && newItem.string) {
@@ -284,57 +361,15 @@ function importData(input) {
                     addedCount++;
                 }
             });
+            
             localStorage.setItem('pogoSavedStrings', JSON.stringify(currentData));
             renderSavedStrings();
             alert(`Successfully imported ${addedCount} new searches!`);
-        } catch (err) { alert("Error importing file: Invalid JSON."); }
-        input.value = '';
+        } catch (err) { 
+            alert("Error importing file: Invalid JSON."); 
+            console.error(err);
+        }
+        input.value = ''; // Reset input
     };
     reader.readAsText(file);
 }
-
-
-// --- TOOLTIP LOGIC (Mobile Tap vs Desktop Hover) ---
-const tooltips = document.querySelectorAll('.tooltip-container');
-tooltips.forEach(container => {
-    const icon = container.querySelector('.info-icon');
-    if (!icon) return;
-    icon.addEventListener('click', (e) => {
-        if (window.innerWidth > 600) return; // Desktop uses CSS hover
-        e.stopPropagation(); 
-        tooltips.forEach(t => t.classList.remove('active'));
-        container.classList.toggle('active');
-    });
-});
-document.addEventListener('click', () => {
-    tooltips.forEach(t => t.classList.remove('active'));
-});
-
-// --- UPDATE MODAL LOGIC ---
-const modal = document.getElementById('update-modal');
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Check Version
-    const savedVersion = localStorage.getItem('pogoVersion');
-
-    if (savedVersion !== CURRENT_VERSION) {
-        // Show Modal
-        modal.style.display = 'flex';
-    }
-
-    // 2. Load Saved Strings (existing function)
-    renderSavedStrings();
-});
-
-function closeModal() {
-    modal.style.display = 'none';
-    // Save that they have seen this version
-    localStorage.setItem('pogoVersion', CURRENT_VERSION);
-}
-
-// Close if clicking outside the modal box
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
-    }
-});
