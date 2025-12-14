@@ -151,10 +151,21 @@ function saveCurrentString() {
 
 function renderSavedStrings() {
     const saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-    if (saved.length === 0) { savedSection.style.display = 'none'; return; }
 
+    // FIX: Always show the section so Import/Export buttons are accessible
     savedSection.style.display = 'block';
     savedList.innerHTML = '';
+
+    // Handle Empty State
+    if (saved.length === 0) {
+        savedList.innerHTML = `
+            <p style="text-align: center; font-style: italic; opacity: 0.6; font-size: 0.85rem; margin: 10px 0;">
+                No saved searches yet.
+            </p>`;
+        return;
+    }
+
+    // Render List
     saved.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'saved-item';
