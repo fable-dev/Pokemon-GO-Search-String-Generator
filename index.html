@@ -248,5 +248,25 @@
             .catch((err) => console.log('Service Worker Failed', err));
     }
 </script>
+    <div id="update-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🚀 What's New in v2.0</h2>
+                <button onclick="closeModal()" class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li><strong>📱 App Support (PWA):</strong> Install this tool on your phone for full-screen & offline access!</li>
+                    <li><strong>💾 Import/Export:</strong> Backup your saved strings or share them with friends.</li>
+                    <li><strong>✨ Smart Append:</strong> Use the "+" buttons to build complex strings term-by-term.</li>
+                    <li><strong>🌙 Dark Mode:</strong> Improved contrast and fixed layout issues.</li>
+                    <li><strong>🐞 Bug Fixes:</strong> Better mobile tooltips and layout fixes.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="primary-btn">Awesome!</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
