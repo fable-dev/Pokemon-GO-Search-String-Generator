@@ -1,3 +1,4 @@
+const CURRENT_VERSION = '2.0'; // Change this number when you push major updates
 // --- DOM ELEMENTS ---
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
@@ -307,4 +308,33 @@ tooltips.forEach(container => {
 });
 document.addEventListener('click', () => {
     tooltips.forEach(t => t.classList.remove('active'));
+});
+
+// --- UPDATE MODAL LOGIC ---
+const modal = document.getElementById('update-modal');
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Check Version
+    const savedVersion = localStorage.getItem('pogoVersion');
+
+    if (savedVersion !== CURRENT_VERSION) {
+        // Show Modal
+        modal.style.display = 'flex';
+    }
+
+    // 2. Load Saved Strings (existing function)
+    renderSavedStrings();
+});
+
+function closeModal() {
+    modal.style.display = 'none';
+    // Save that they have seen this version
+    localStorage.setItem('pogoVersion', CURRENT_VERSION);
+}
+
+// Close if clicking outside the modal box
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
 });
