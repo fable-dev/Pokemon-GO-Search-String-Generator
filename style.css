@@ -343,3 +343,19 @@ details[open] summary::after { content: '−'; }
 label { display: flex; align-items: center; font-size: 0.9rem; cursor: pointer; }
 input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; accent-color: var(--primary); }
 footer { text-align: center; padding: 30px; color: var(--text); opacity: 0.6; font-size: 0.8rem; }
+
+
+/* --- FIX: Tooltip Icon Alignment --- */
+
+/* 1. Remove the bottom margin from labels *only* when they are inside a tooltip container.
+   This removes the invisible space that was pushing the icon down. */
+.input-group .tooltip-container label {
+    margin-bottom: 0;
+}
+
+/* 2. Add that spacing to the container instead, so the input box isn't too close. 
+   Also add 'gap' to separate the text from the (?) icon. */
+.input-group .tooltip-container {
+    margin-bottom: 5px;
+    gap: 6px; 
+}
