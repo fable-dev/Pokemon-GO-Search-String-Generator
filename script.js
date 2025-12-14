@@ -42,73 +42,93 @@ themeToggleBtn.addEventListener('click', () => {
 
 // --- CORE GENERATOR LOGIC ---
 
-// 1. Checkboxes
+// 1. Checkboxes (Keep these auto-updating for Append/Replace)
 checkboxes.forEach(box => {
     box.addEventListener('change', (e) => {
         if (appendToggle.checked) {
-            // APPEND MODE: Treat checkbox like a button
             if (box.checked) {
                 addTermToOutput(box.value);
-                box.checked = false; // Reset immediately
+                box.checked = false; 
             }
         } else {
-            // REPLACE MODE: Update whole string based on state
+            // In Replace mode, checkboxes still toggle logic on/off in the big string? 
+            // Actually, based on your request, you likely want full manual control.
+            // But usually checkboxes are instant. Let's keep checkboxes instant for now.
             generateString();
         }
     });
 });
 
-// 2. Text Inputs (Name, Age, Year, Move)
+// 2. Text Inputs: REMOVE 'input' listeners. ONLY use Enter key.
 textInputs.forEach(input => {
-    // 'input' fires on every keystroke (Good for Replace Mode)
-    input.addEventListener('input', () => {
-        if (!appendToggle.checked) {
-            generateString();
-        }
-    });
-
-    // 'change' fires on Enter or Blur (Good for Append Mode)
-    input.addEventListener('change', () => {
-        if (appendToggle.checked && input.value.trim() !== "") {
-            handleAppendText(input);
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Stop form submission if any
+            
+            // Identify which type of input this is based on ID
+            if (input === inputName) triggerAdd('name');
+            else if (input === inputAge) triggerAdd('age');
+            else if (input === inputYear) triggerAdd('year');
+            else if (input === inputMove) triggerAdd('move');
+            else if (input === cpMin || input === cpMax) triggerAdd('cp');
+            else if (input === distMin || input === distMax) triggerAdd('distance');
         }
     });
 });
 
 
-// Helper to handle specific text input appending
-function handleAppendText(input) {
+// --- MANUAL TRIGGER FUNCTION (The + Button) ---
+function triggerAdd(type) {
     let term = "";
-    
-    // Logic for specific fields
-    if (input === inputName) {
-        term = input.value.trim();
-        if (checkFamily.checked) term = '+' + term;
-    } else if (input === inputAge) {
-        term = `age${input.value}`;
-    } else if (input === inputYear) {
-        term = `year${input.value}`;
-    } else if (input === inputMove) {
-        term = input.value.trim();
-    } else if (input === cpMin || input === cpMax) {
-        // Only append if we have at least one value
+
+    // 1. Determine the search term based on type
+    if (type === 'name') {
+        const val = inputName.value.trim();
+        if (val) term = checkFamily.checked ? '+' + val : val;
+        inputName.value = ""; // Clear after add
+    } 
+    else if (type === 'age') {
+        if (inputAge.value) {
+            term = `age${inputAge.value}`;
+            inputAge.value = "";
+        }
+    } 
+    else if (type === 'year') {
+        if (inputYear.value) {
+            term = `year${inputYear.value}`;
+            inputYear.value = "";
+        }
+    } 
+    else if (type === 'move') {
+        if (inputMove.value.trim()) {
+            term = inputMove.value.trim();
+            inputMove.value = "";
+        }
+    } 
+    else if (type === 'cp') {
         if (cpMin.value || cpMax.value) {
             term = `cp${cpMin.value}-${cpMax.value}`;
-            cpMin.value = ""; cpMax.value = ""; // Clear both
+            cpMin.value = ""; cpMax.value = "";
         }
-    } else if (input === distMin || input === distMax) {
+    } 
+    else if (type === 'distance') {
         if (distMin.value || distMax.value) {
             term = `distance${distMin.value}-${distMax.value}`;
-            distMin.value = ""; distMax.value = ""; // Clear both
+            distMin.value = ""; distMax.value = "";
         }
     }
 
-    if (term) {
+    if (!term) return; // Do nothing if empty
+
+    // 2. Add to Output (Respecting Toggle)
+    if (appendToggle.checked) {
         addTermToOutput(term);
-        // Clear the specific input triggered (Ranges are cleared above)
-        if (input !== cpMin && input !== cpMax && input !== distMin && input !== distMax) {
-            input.value = "";
-        }
+    } else {
+        // Replace Mode:
+        // If the user manually clicks "+", they probably expect it to 
+        // become the *only* thing in the box (Replace).
+        clearAll(false);
+        outputBox.value = term;
     }
 }
 
