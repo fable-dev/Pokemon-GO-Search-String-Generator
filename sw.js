@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pogo-search-v1';
+const CACHE_NAME = 'pogo-search-v1.1';
 const ASSETS = [
   './',
   './index.html',
