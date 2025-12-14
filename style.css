@@ -475,14 +475,13 @@ footer {
     color: var(--accent);
 }
 
-/* --- SAVED SECTION UPDATES --- */
 .saved-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 5px;
+    padding-bottom: 8px; /* Slightly more space */
 }
 
 .saved-header h4 {
@@ -493,7 +492,7 @@ footer {
 
 .saved-actions {
     display: flex;
-    gap: 5px;
+    gap: 8px; /* Space between buttons */
 }
 
 /* Ensure the list has a minimum height so it doesn't collapse too much */
@@ -654,4 +653,36 @@ footer {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* New Text Buttons */
+.text-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem; /* Smaller, crisp text */
+    text-transform: uppercase; /* Makes it look like a tool button */
+    letter-spacing: 0.5px;
+    font-weight: bold;
+    padding: 4px 10px;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.text-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Dark Mode Support for new buttons */
+[data-theme="dark"] .text-btn {
+    border-color: #555;
+    color: #ccc;
+}
+[data-theme="dark"] .text-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
 }
