@@ -569,3 +569,89 @@ footer {
     margin-left: 5px;
     height: 34px; /* Slightly taller to match number inputs */
 }
+
+/* --- MODAL STYLES --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 20000; /* Highest priority */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    color: var(--text);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.modal-header {
+    background-color: var(--primary);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 0;
+}
+.close-modal-btn:hover { opacity: 1; }
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-body ul {
+    margin: 0;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+.modal-body li {
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    padding: 15px;
+    background-color: var(--bg);
+    text-align: right;
+    border-top: 1px solid var(--border);
+}
+
+.primary-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.primary-btn:hover { filter: brightness(1.1); }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
