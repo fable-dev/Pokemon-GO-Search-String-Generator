@@ -1,4 +1,4 @@
-const CURRENT_VERSION = '2.0'; // Change this number when you push major updates
+const CURRENT_VERSION = '1.1'; // Change this number when you push major updates
 // --- DOM ELEMENTS ---
 const outputBox = document.getElementById('search-string');
 const copyFeedback = document.getElementById('copy-feedback');
