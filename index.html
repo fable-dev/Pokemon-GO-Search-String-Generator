@@ -6,6 +6,7 @@
     <title>PoGo Search Generator Pro</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23ef5350'/><path d='M0 50 L100 50' stroke='%23333' stroke-width='10'/><circle cx='50' cy='50' r='50' fill='white' clip-path='inset(50% 0 0 0)'/><circle cx='50' cy='50' r='18' fill='white' stroke='%23333' stroke-width='8'/></svg>">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -164,5 +165,12 @@
     </main>
     <footer><p>Built for Pokémon GO Trainers</p></footer>
     <script src="script.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('Service Worker Registered'))
+            .catch((err) => console.log('Service Worker Failed', err));
+    }
+</script>
 </body>
 </html>
