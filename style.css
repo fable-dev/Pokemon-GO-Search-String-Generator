@@ -359,3 +359,112 @@ footer { text-align: center; padding: 30px; color: var(--text); opacity: 0.6; fo
     margin-bottom: 5px;
     gap: 6px; 
 }
+
+/* --- FOOTER & CHEATSHEET --- */
+footer {
+    padding: 20px 10px 40px; /* Extra bottom padding for mobile scroll */
+    text-align: center;
+    color: var(--text);
+    opacity: 1; /* Reset opacity so text is readable */
+}
+
+.copyright {
+    margin-top: 20px;
+    opacity: 0.6;
+    font-size: 0.8rem;
+}
+
+/* The Expandable Container */
+.cheatsheet {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    overflow: hidden;
+}
+
+.cheatsheet summary {
+    background-color: var(--bg);
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none; /* Hide default triangle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    transition: background 0.2s;
+}
+
+.cheatsheet summary:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.cheatsheet-content {
+    padding: 15px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.sheet-intro {
+    margin: 0 0 15px 0;
+    font-style: italic;
+    opacity: 0.8;
+    text-align: center;
+}
+
+/* Grid Layout for Categories */
+.sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.sheet-group h5 {
+    margin: 0 0 8px 0;
+    color: var(--primary);
+    font-size: 0.95rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 4px;
+}
+
+.sheet-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sheet-group li {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.sheet-group li:last-child {
+    border-bottom: none;
+}
+
+/* Code Snippet Styling */
+.sheet-group code {
+    background: rgba(128, 128, 128, 0.15);
+    color: var(--primary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.sheet-group span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Dark Mode Tweaks */
+[data-theme="dark"] .sheet-group code {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent);
+}
