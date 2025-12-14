@@ -510,8 +510,6 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     white-space: pre-wrap; /* Preserve formatting */
     font-family: monospace;
     font-size: 0.75rem;
-    background-color: #222;
-    border: 1px solid var(--primary); /* Highlight border */
 }
 
 /* On Mobile, ensure the preview modal scrolls if text is huge */
