@@ -79,21 +79,36 @@ textInputs.forEach(input => {
     });
 });
 
-// Mobile Tooltips (Tap Logic)
-const tooltips = document.querySelectorAll('.tooltip-container');
-tooltips.forEach(container => {
-    const icon = container.querySelector('.info-icon');
-    if (!icon) return;
+// --- GLOBAL TOOLTIP LOGIC (Event Delegation) ---
+// This handles both static tooltips and dynamic ones in the saved list
+document.addEventListener('click', (e) => {
     
-    icon.addEventListener('click', (e) => {
-        if (window.innerWidth > 600) return; // Desktop uses CSS hover
-        e.stopPropagation(); 
+    // 1. Did we click an Info Icon?
+    if (e.target.matches('.info-icon')) {
+        // Only run tap logic on Mobile
+        if (window.innerWidth > 600) return; 
+
+        e.stopPropagation();
+        const container = e.target.closest('.tooltip-container');
         
-        // Close others
-        tooltips.forEach(t => t.classList.remove('active'));
-        // Toggle current
-        container.classList.toggle('active');
-    });
+        // Close all other tooltips first
+        document.querySelectorAll('.tooltip-container.active').forEach(t => {
+            if (t !== container) t.classList.remove('active');
+        });
+
+        // Toggle this one
+        if (container) container.classList.toggle('active');
+    }
+    
+    // 2. Did we click ANYWHERE else? (Close all)
+    else {
+        // Don't close if clicking inside the tooltip text itself (so they can copy text manually if needed)
+        if (e.target.closest('.tooltip-text')) return;
+
+        document.querySelectorAll('.tooltip-container.active').forEach(t => {
+            t.classList.remove('active');
+        });
+    }
 });
 
 // Close tooltips when clicking background
