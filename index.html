@@ -163,7 +163,60 @@
             <details><summary>Moves, Raids & Misc</summary><div class="filters-grid"><label><input type="checkbox" value="@special" class="filter"> Special Move</label><label><input type="checkbox" value="@weather" class="filter"> Weather Boost</label><label><input type="checkbox" value="traded" class="filter"> Traded</label><label><input type="checkbox" value="!traded" class="filter"> Not Traded</label><label><input type="checkbox" value="defender" class="filter"> Gym Defender</label><label><input type="checkbox" value="gbl" class="filter"> GBL Reward</label><label><input type="checkbox" value="raid" class="filter"> Raid</label><label><input type="checkbox" value="remoteraid" class="filter"> Remote Raid</label><label><input type="checkbox" value="snapshot" class="filter"> Snapshot</label><label><input type="checkbox" value="locationbackground" class="filter"> Location BG</label><label><input type="checkbox" value="specialbackground" class="filter"> Special BG</label></div></details>
         </div>
     </main>
-    <footer><p>Built for Pokémon GO Trainers</p></footer>
+    <footer>
+        
+        <details class="cheatsheet">
+            <summary>📜 Search Command Cheatsheet</summary>
+            <div class="cheatsheet-content">
+                <p class="sheet-intro">Quick reference for manual typing:</p>
+                
+                <div class="sheet-grid">
+                    
+                    <div class="sheet-group">
+                        <h5>Logic & Operators</h5>
+                        <ul>
+                            <li><code>&</code> <span>AND (e.g. shiny&legendary)</span></li>
+                            <li><code>,</code> <span>OR (e.g. shiny,lucky)</span></li>
+                            <li><code>!</code> <span>NOT (e.g. !shiny)</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sheet-group">
+                        <h5>Time & Distance</h5>
+                        <ul>
+                            <li><code>age0</code> <span>Caught last 24 hours</span></li>
+                            <li><code>age1</code> <span>Caught yesterday</span></li>
+                            <li><code>year2016</code> <span>Caught in 2016</span></li>
+                            <li><code>distance100-</code> <span>Caught 100km+ away</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sheet-group">
+                        <h5>IVs & Stats</h5>
+                        <ul>
+                            <li><code>4*</code> <span>100% IV (Hundo)</span></li>
+                            <li><code>0*</code> <span>0-50% IV</span></li>
+                            <li><code>0attack</code> <span>0 Attack Stat</span></li>
+                            <li><code>cp-1500</code> <span>CP 1500 or lower</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="sheet-group">
+                        <h5>Moves & Misc</h5>
+                        <ul>
+                            <li><code>@special</code> <span>Legacy/Exclusive Move</span></li>
+                            <li><code>@weather</code> <span>Weather Boosted</span></li>
+                            <li><code>@3move</code> <span>Has 2nd Charge Move</span></li>
+                            <li><code>evolvenew</code> <span>New Pokédex Entry</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </details>
+
+        <p class="copyright">Built for Pokémon GO Trainers</p>
+    </footer>
     <script src="script.js"></script>
     <script>
     if ('serviceWorker' in navigator) {
