@@ -1,7 +1,7 @@
 /* =========================================
    1. CONFIGURATION & SELECTORS
    ========================================= */
-const CURRENT_VERSION = '1.1'; // Update this to force Modal on new features
+const CURRENT_VERSION = '1.0'; // Update this to force Modal on new features
 
 // Output & Toggles
 const outputBox = document.getElementById('search-string');
