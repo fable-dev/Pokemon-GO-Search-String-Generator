@@ -228,6 +228,13 @@ function copyText() {
     });
 }
 
+function copySavedString(str) {
+    navigator.clipboard.writeText(str).then(() => {
+        // Simple visual feedback (alert is okay here, or use a toast if you prefer)
+        alert("String copied to clipboard!"); 
+    });
+}
+
 function clearAll(clearOutput = true) {
     checkboxes.forEach(box => box.checked = false);
     textInputs.forEach(input => input.value = '');
@@ -280,8 +287,6 @@ function closeModal() {
 
 function renderSavedStrings() {
     const saved = JSON.parse(localStorage.getItem('pogoSavedStrings')) || [];
-    
-    // Always show section (for Import/Export access)
     savedSection.style.display = 'block';
     savedList.innerHTML = '';
 
@@ -293,9 +298,25 @@ function renderSavedStrings() {
     saved.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'saved-item';
+        
+        // We inject: Name | [Eye Tooltip] [Copy Btn] [Delete Btn]
         div.innerHTML = `
-            <span class="saved-name" onclick="applyPreset('${item.string}')">${item.name}</span>
-            <button class="delete-btn" onclick="deleteSavedString(${index})">×</button>
+            <span class="saved-name" onclick="applyPreset('${item.string}')" title="Apply String">${item.name}</span>
+            
+            <div class="saved-controls">
+                
+                <div class="tooltip-container">
+                    <span class="mini-btn info-icon" style="background:none; color:inherit; width:auto; height:auto;">👁️</span>
+                    <span class="tooltip-text bottom-align right-align code-preview">
+                        <strong>${item.name}</strong><br><hr style="margin:5px 0; border-color:gray;">
+                        ${item.string}
+                    </span>
+                </div>
+
+                <button class="mini-btn" onclick="copySavedString('${item.string}')" title="Copy to Clipboard">📋</button>
+
+                <button class="mini-btn delete-btn" onclick="deleteSavedString(${index})" title="Delete" style="color: var(--danger);">×</button>
+            </div>
         `;
         savedList.appendChild(div);
     });
