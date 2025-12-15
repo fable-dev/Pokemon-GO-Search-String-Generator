@@ -187,15 +187,16 @@ button:active { transform: scale(0.98); }
 #saved-list {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Items stack from top */
+    justify-content: flex-start; /* Ensure items align to top */
     
     /* Scroll Logic */
-    max-height: 240px; /* Fits approx 5 items before scrolling */
-    overflow-y: auto;  /* Vertical scrollbar appears if needed */
+    max-height: 240px; 
+    overflow-y: auto;  
     
-    /* Visual Polish */
-    min-height: 40px;  /* Minimum height for "Empty" message */
-    padding-right: 5px; /* Prevent text hitting the scrollbar */
+    /* FIX: Remove bottom padding so the last item sits flush */
+    padding: 1px 5px 0 1px; 
+    
+    min-height: 0; /* Helps flexbox calculate height correctly */
 }
 
 /* Optional: Custom Scrollbar Styling (Webkit only - Chrome/Safari) */
@@ -214,9 +215,15 @@ button:active { transform: scale(0.98); }
 }
 
 .saved-item {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--card-bg); padding: 8px 12px; margin-bottom: 6px;
-    border-radius: 6px; border: 1px solid var(--border);
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    background: var(--card-bg); 
+    padding: 8px 12px; 
+    margin-bottom: 6px; /* Gap between items */
+    border-radius: 6px; 
+    border: 1px solid var(--border);
+    flex-shrink: 0; /* Prevent items from getting squished */
 }
 .saved-name { font-weight: bold; cursor: pointer; flex-grow: 1; }
 .delete-btn {
