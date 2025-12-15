@@ -429,27 +429,26 @@ inputName.addEventListener('input', function() {
     if (!val) return false;
     
     // Create new list items
+    // Inside inputName.addEventListener...
+
     POKEMON_NAMES.forEach(name => {
-        // Case-insensitive matching (starts with)
-        if (name.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+        // FIX: Use .includes() instead of startsWith logic
+        if (name.toUpperCase().includes(val.toUpperCase())) {
             
             const item = document.createElement("div");
             
-            // Make the matching letters bold
-            item.innerHTML = "<strong>" + name.substr(0, val.length) + "</strong>";
-            item.innerHTML += name.substr(val.length);
+            // Highlight the matching part is tricky with .includes()
+            // So for simplicity, let's just show the name. 
+            // If you really want highlighting, it requires complex regex, 
+            // but just showing the name is cleaner for now.
+            item.innerHTML = name; 
             
             // Hidden input to hold the real value
             item.innerHTML += "<input type='hidden' value='" + name + "'>";
             
-            // Click listener
             item.addEventListener("click", function() {
                 inputName.value = this.getElementsByTagName("input")[0].value;
                 closeAutocomplete();
-                
-                // Optional: Auto-add when clicked? 
-                // triggerAdd('name'); 
-                // Or just let them click +
             });
             
             autocompleteList.appendChild(item);
