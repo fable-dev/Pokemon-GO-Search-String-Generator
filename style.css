@@ -183,9 +183,34 @@ button:active { transform: scale(0.98); }
 
 .saved-actions { display: flex; gap: 8px; }
 
+/* --- SCROLLABLE SAVED LIST --- */
 #saved-list {
-    min-height: 30px; display: flex;
-    flex-direction: column; justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Items stack from top */
+    
+    /* Scroll Logic */
+    max-height: 240px; /* Fits approx 5 items before scrolling */
+    overflow-y: auto;  /* Vertical scrollbar appears if needed */
+    
+    /* Visual Polish */
+    min-height: 40px;  /* Minimum height for "Empty" message */
+    padding-right: 5px; /* Prevent text hitting the scrollbar */
+}
+
+/* Optional: Custom Scrollbar Styling (Webkit only - Chrome/Safari) */
+#saved-list::-webkit-scrollbar {
+    width: 6px;
+}
+#saved-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+#saved-list::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+}
+#saved-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary);
 }
 
 .saved-item {
