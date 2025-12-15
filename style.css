@@ -520,3 +520,37 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
         overflow-y: auto;
     }
 }
+
+/* --- AUTOCOMPLETE DROPDOWN --- */
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 65px; /* Adjust based on your label/input height */
+    left: 0;
+    right: 40px; /* Leave space for the + button */
+    background-color: var(--card-bg);
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.autocomplete-items div:hover {
+    background-color: var(--bg); /* Highlight color */
+}
+
+/* Dark mode tweak */
+[data-theme="dark"] .autocomplete-items div:hover {
+    background-color: #333;
+}
