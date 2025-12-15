@@ -7,3 +7,4 @@ To Do:-
 - Make a way to search through saved strings.
 - Add Multi Delete String
 - Wrap the string name if too big, or limit the string name to 20 chars.
+- Tooltip around the Quick Filters which when clicked will show the string in filter?
