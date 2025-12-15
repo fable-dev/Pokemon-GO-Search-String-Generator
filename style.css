@@ -170,52 +170,7 @@ button:active { transform: scale(0.98); }
 }
 
 /* =========================================
-   4. ADVANCED SETTINGS MENU
-   ========================================= */
-.advanced-settings {
-    margin-top: 15px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background-color: var(--bg);
-    font-size: 0.9rem;
-    overflow: visible !important; /* Allow tooltips to pop out */
-}
-
-.advanced-settings summary {
-    padding: 10px 15px;
-    font-weight: 600;
-    color: var(--text);
-    opacity: 0.8;
-}
-
-.advanced-grid {
-    padding: 15px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.setting-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.setting-item .tooltip-container {
-    position: relative; 
-    display: inline-flex;
-    vertical-align: middle;
-}
-
-.setting-item .toggle-group {
-    flex-wrap: nowrap;
-}
-
-/* =========================================
-   5. SAVED SEARCHES SECTION
+   4. SAVED SEARCHES SECTION
    ========================================= */
 .saved-container { margin: 15px 0; padding: 10px; background: var(--bg); border-radius: 8px; }
 
@@ -228,56 +183,47 @@ button:active { transform: scale(0.98); }
 
 .saved-actions { display: flex; gap: 8px; }
 
-/* Scrollable Saved List */
+/* --- SCROLLABLE SAVED LIST --- */
 #saved-list {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    max-height: 240px; 
-    overflow-y: auto;  
-    min-height: 40px; 
-    padding: 1px 5px 0 1px; /* Padding-bottom 0 removes gap */
+    justify-content: flex-start; /* Items stack from top */
+    
+    /* Scroll Logic */
+    max-height: 240px; /* Fits approx 5 items before scrolling */
+    overflow-y: auto;  /* Vertical scrollbar appears if needed */
+    
+    /* Visual Polish */
+    min-height: 40px;  /* Minimum height for "Empty" message */
+    padding-right: 5px; /* Prevent text hitting the scrollbar */
 }
 
-/* Custom Scrollbar */
-#saved-list::-webkit-scrollbar { width: 6px; }
-#saved-list::-webkit-scrollbar-track { background: transparent; }
-#saved-list::-webkit-scrollbar-thumb { background-color: var(--border); border-radius: 10px; }
-#saved-list::-webkit-scrollbar-thumb:hover { background-color: var(--primary); }
+/* Optional: Custom Scrollbar Styling (Webkit only - Chrome/Safari) */
+#saved-list::-webkit-scrollbar {
+    width: 6px;
+}
+#saved-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+#saved-list::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 10px;
+}
+#saved-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary);
+}
 
-/* Saved Item Styles */
 .saved-item {
     display: flex; justify-content: space-between; align-items: center;
-    gap: 10px; padding: 8px 12px; margin-bottom: 6px;
-    background: var(--card-bg); border-radius: 6px; 
-    border: 1px solid var(--border); flex-shrink: 0;
+    background: var(--card-bg); padding: 8px 12px; margin-bottom: 6px;
+    border-radius: 6px; border: 1px solid var(--border);
 }
-.saved-item:last-child { margin-bottom: 0; }
-
-.saved-name {
-    font-weight: bold; cursor: pointer; flex-grow: 1;
-    /* Truncation */
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    min-width: 0; margin-right: 10px;
-}
-
-.saved-controls {
-    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-}
-
-.mini-btn {
-    background: none; border: none; cursor: pointer;
-    font-size: 1rem; padding: 4px; opacity: 0.6;
-    transition: opacity 0.2s, transform 0.2s;
-    display: flex; align-items: center; justify-content: center;
-}
-.mini-btn:hover {
-    opacity: 1; transform: scale(1.1);
-    background-color: rgba(0,0,0,0.05); border-radius: 4px;
+.saved-name { font-weight: bold; cursor: pointer; flex-grow: 1; }
+.delete-btn {
+    background: none; border: none; color: var(--text); opacity: 0.6;
+    cursor: pointer; font-size: 1.2rem; padding: 0 0 0 15px;
 }
 .delete-btn:hover { color: var(--danger); opacity: 1; }
-[data-theme="dark"] .mini-btn { color: white; }
-[data-theme="dark"] .mini-btn:hover { background-color: rgba(255,255,255,0.1); }
 
 /* Text Buttons (Import/Export) */
 .text-btn {
@@ -296,7 +242,7 @@ button:active { transform: scale(0.98); }
 }
 
 /* =========================================
-   6. PRESETS & FILTERS
+   5. PRESETS & FILTERS
    ========================================= */
 .presets-container { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
 .presets-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -316,7 +262,7 @@ button:active { transform: scale(0.98); }
 .trade-btn:hover { background-color: var(--link); border-color: var(--link); }
 [data-theme="dark"] .preset-btn { background-color: var(--input-bg); }
 
-/* Filters */
+/* Details/Summary Filters */
 .filters-container { margin-top: 20px; }
 details { background: var(--card-bg); margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
 summary { 
@@ -333,28 +279,30 @@ details[open] summary::after { content: '−'; }
 }
 label { display: flex; align-items: center; font-size: 0.9rem; cursor: pointer; }
 input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; accent-color: var(--primary); }
+
+/*Divider*/
 .divider { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
 
-
 /* =========================================
-   7. INPUTS & AUTOCOMPLETE
+   6. INPUTS & MANUAL ENTRY
    ========================================= */
 .inputs-grid { 
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
     gap: 15px; margin-bottom: 20px; 
 }
-.input-group { position: relative; } /* Anchor for dropdown */
 .input-group label { display: block; font-size: 0.85rem; margin-bottom: 5px; font-weight: 600; }
 .dynamic-input { 
     width: 100%; padding: 8px; border: 1px solid var(--border); 
     border-radius: 6px; background: var(--input-bg); color: var(--text); box-sizing: border-box; 
 }
 
+/* Layouts for rows */
 .input-row { display: flex; gap: 8px; align-items: center; }
 .range-inputs { display: flex; align-items: center; gap: 5px; }
 .range-inputs input { width: 48%; }
 .checkbox-inline { display: flex; align-items: center; font-size: 0.85rem; }
 
+/* The Add (+) Buttons */
 .input-with-btn { display: flex; gap: 5px; align-items: center; width: 100%; }
 .input-with-btn .dynamic-input { flex: 1; }
 
@@ -370,28 +318,12 @@ input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; accent-co
 }
 .range-inputs .add-btn { margin-left: 5px; height: 34px; }
 
-/* Tooltip spacing fix in inputs */
+/* Fix Tooltip Icon Alignment in inputs */
 .input-group .tooltip-container label { margin-bottom: 0; }
 .input-group .tooltip-container { margin-bottom: 5px; gap: 6px; }
 
-/* Autocomplete Dropdown */
-.autocomplete-items {
-    top: 100%; margin-top: 5px;
-    position: absolute; left: 0; right: 40px; z-index: 99;
-    background-color: var(--card-bg); border: 1px solid var(--border);
-    max-height: 200px; overflow-y: auto;
-    border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.autocomplete-items div {
-    padding: 10px; cursor: pointer; font-size: 0.9rem;
-    background-color: var(--card-bg); border-bottom: 1px solid var(--border);
-}
-.autocomplete-items div:hover { background-color: var(--bg); }
-[data-theme="dark"] .autocomplete-items div:hover { background-color: #333; }
-
-
 /* =========================================
-   8. TOOLTIPS
+   7. TOOLTIPS
    ========================================= */
 .tooltip-container { position: relative; display: inline-flex; align-items: center; cursor: help; }
 .info-icon {
@@ -413,35 +345,32 @@ input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; accent-co
     content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
     border-width: 5px; border-style: solid; border-color: #333 transparent transparent transparent;
 }
-
-/* Alignment Helpers */
 .tooltip-text.right-align { left: auto; right: -10px; margin-left: 0; width: 260px; }
 .tooltip-text.right-align::after { left: auto; right: 15px; margin-left: 0; }
 
+/* Bottom Aligned Tooltips */
 .tooltip-text.bottom-align { bottom: auto; top: 135%; }
 .tooltip-text.bottom-align::after { top: auto; bottom: 100%; border-color: transparent transparent #333 transparent; }
 
-/* Code Preview Special Style */
-.tooltip-text.code-preview {
-    width: 280px; 
-    word-wrap: break-word; white-space: pre-wrap; 
-    font-family: monospace; font-size: 0.75rem; 
-    text-align: left;
-}
-
-/* Hover Effects (Desktop) */
+/* Hover Effects (Desktop Only) */
 @media (hover: hover) {
     .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 125%; }
     .tooltip-container:hover .tooltip-text.bottom-align { bottom: auto; top: 125%; }
 }
 
-/* Active Class (JS) */
+/* Active Class (for JS toggling) */
 .tooltip-container.active .tooltip-text { visibility: visible; opacity: 1; bottom: 125%; }
 .tooltip-container.active .tooltip-text.bottom-align { bottom: auto; top: 135%; }
 
+/* Helper classes */
+.tooltip-text.anchor-left { left: -10px; right: auto; margin-left: 0; }
+.tooltip-text.anchor-left::after { left: 20px; }
+.tooltip-text.anchor-right { left: auto; right: -10px; margin-left: 0; }
+.tooltip-text.anchor-right::after { left: auto; right: 20px; }
+
 
 /* =========================================
-   9. FOOTER & CHEATSHEET
+   8. FOOTER & CHEATSHEET
    ========================================= */
 footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacity: 1; }
 .copyright { margin-top: 20px; opacity: 0.6; font-size: 0.8rem; }
@@ -480,9 +409,8 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
 .sheet-group span { font-size: 0.85rem; opacity: 0.9; }
 [data-theme="dark"] .sheet-group code { background: rgba(255, 255, 255, 0.1); color: var(--accent); }
 
-
 /* =========================================
-   10. MODAL & RESPONSIVE
+   9. MODAL STYLES
    ========================================= */
 .modal-backdrop {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -515,12 +443,13 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
 .primary-btn:hover { filter: brightness(1.1); }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Mobile Overrides */
+
+/* =========================================
+   10. MOBILE & RESPONSIVE (Combined)
+   ========================================= */
 @media (max-width: 600px) {
-    /* Stack Header */
+    /* 1. Header Layout */
     .output-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-    
-    /* Advanced Settings Toggle layout */
     .toggle-group {
         width: 100%; justify-content: space-between;
         background-color: var(--input-bg); padding: 10px;
@@ -528,7 +457,7 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     }
     .toggle-label { font-size: 0.85rem; }
 
-    /* Mobile Tooltip (Modal Style) */
+    /* 2. Mobile Tooltip (Modal Style) */
     .tooltip-container.active .tooltip-text {
         position: fixed; 
         top: 50% !important; transform: translateY(-50%);
@@ -541,11 +470,6 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
         visibility: visible; opacity: 1;
     }
     .tooltip-container.active .tooltip-text::after { display: none; }
-    
-    /* Allow scrolling for large code previews on mobile */
-    .tooltip-container.active .tooltip-text.code-preview {
-        max-height: 60vh; overflow-y: auto;
-    }
 
     /* Backdrop */
     .tooltip-container.active::before {
@@ -553,4 +477,166 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
         background-color: rgba(0,0,0,0.5); z-index: 9999;
         backdrop-filter: blur(2px);
     }
+}
+
+/* --- SAVED LIST ACTIONS --- */
+.saved-item {
+    /* Update existing .saved-item to handle extra buttons */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+}
+
+.saved-item:last-child {
+    margin-bottom: 0;
+}
+
+.saved-name {
+    font-weight: bold;
+    cursor: pointer;
+    flex-grow: 1; /* Take up available space */
+    
+    /* TRUNCATION MAGIC */
+    white-space: nowrap;       /* Force one line */
+    overflow: hidden;          /* Hide overflow */
+    text-overflow: ellipsis;   /* Add "..." at the end */
+    min-width: 0;              /* Allow flex item to shrink below content size */
+    margin-right: 10px;        /* Space between text and buttons */
+}
+
+.saved-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between Eye, Copy, Delete */
+    flex-shrink: 0; /* Prevent buttons from squishing */
+}
+
+/* Style for the new small action buttons */
+.mini-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+[data-theme="dark"] .mini-btn { color: white; }
+[data-theme="dark"] .mini-btn:hover { background-color: rgba(255,255,255,0.1); }
+
+
+/* PREVIEW TOOLTIP SPECIFIC STYLES */
+.tooltip-text.code-preview {
+    width: 280px; /* Wider for strings */
+    word-wrap: break-word; /* Force text to wrap */
+    white-space: pre-wrap; /* Preserve formatting */
+    font-family: monospace;
+    font-size: 0.75rem;
+    text-align: left; /* <-- ADD THIS LINE to force left alignment */
+}
+
+/* On Mobile, ensure the preview modal scrolls if text is huge */
+@media (max-width: 600px) {
+    .tooltip-container.active .tooltip-text.code-preview {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+}
+
+/* --- FIX: Anchor the Dropdown --- */
+.input-group {
+    position: relative; /* This catches the absolute dropdown */
+}
+
+/* Update the top position to sit right below the input row */
+.autocomplete-items {
+    top: 100%; /* Exact bottom of the parent container */
+    margin-top: 5px; /* Tiny gap */
+    position: absolute;
+    border: 1px solid var(--border);
+    z-index: 99;
+    left: 0;
+    right: 40px;
+    background-color: var(--card-bg);
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 8px; /* Rounded corners all around */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.autocomplete-items div:hover {
+    background-color: var(--bg); /* Highlight color */
+}
+
+/* Dark mode tweak */
+[data-theme="dark"] .autocomplete-items div:hover {
+    background-color: #333;
+}
+
+/* --- ADVANCED SETTINGS MENU --- */
+.advanced-settings {
+    margin-top: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg);
+    font-size: 0.9rem;
+    
+    /* FIX: Allow tooltips to pop outside the box */
+    overflow: visible !important; 
+}
+
+.advanced-settings summary {
+    padding: 10px 15px;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.advanced-grid {
+    padding: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around; /* Spread them out evenly */
+    align-items: center;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Fix for tooltip positioning inside the new flex container */
+.setting-item .tooltip-container {
+    position: relative; 
+    display: inline-flex; /* Ensure it stays inline with text */
+    vertical-align: middle;
+}
+
+/* Ensure sliders don't get squished on small screens */
+.setting-item .toggle-group {
+    flex-wrap: nowrap;
 }
