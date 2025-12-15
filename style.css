@@ -489,6 +489,10 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     padding: 8px 12px;
 }
 
+.saved-item:last-child {
+    margin-bottom: 0;
+}
+
 .saved-name {
     font-weight: bold;
     cursor: pointer;
