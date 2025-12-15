@@ -565,8 +565,11 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     margin-top: 15px;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background-color: var(--bg); /* Slightly darker/lighter than card */
+    background-color: var(--bg);
     font-size: 0.9rem;
+    
+    /* FIX: Allow tooltips to pop outside the box */
+    overflow: visible !important; 
 }
 
 .advanced-settings summary {
