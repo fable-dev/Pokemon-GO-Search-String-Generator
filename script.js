@@ -416,3 +416,54 @@ function importData(input) {
     };
     reader.readAsText(file);
 }
+
+// --- AUTOCOMPLETE LOGIC ---
+const autocompleteList = document.getElementById('autocomplete-list');
+
+inputName.addEventListener('input', function() {
+    const val = this.value;
+    
+    // Close any already open lists of autocompleted values
+    closeAutocomplete();
+    
+    if (!val) return false;
+    
+    // Create new list items
+    POKEMON_NAMES.forEach(name => {
+        // Case-insensitive matching (starts with)
+        if (name.substr(0, val.length).toUpperCase() === val.toUpperCase()) {
+            
+            const item = document.createElement("div");
+            
+            // Make the matching letters bold
+            item.innerHTML = "<strong>" + name.substr(0, val.length) + "</strong>";
+            item.innerHTML += name.substr(val.length);
+            
+            // Hidden input to hold the real value
+            item.innerHTML += "<input type='hidden' value='" + name + "'>";
+            
+            // Click listener
+            item.addEventListener("click", function() {
+                inputName.value = this.getElementsByTagName("input")[0].value;
+                closeAutocomplete();
+                
+                // Optional: Auto-add when clicked? 
+                // triggerAdd('name'); 
+                // Or just let them click +
+            });
+            
+            autocompleteList.appendChild(item);
+        }
+    });
+});
+
+function closeAutocomplete() {
+    autocompleteList.innerHTML = '';
+}
+
+// Close list when clicking elsewhere
+document.addEventListener('click', (e) => {
+    if (e.target !== inputName) {
+        closeAutocomplete();
+    }
+});
