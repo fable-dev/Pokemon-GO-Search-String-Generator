@@ -521,22 +521,27 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
     }
 }
 
-/* --- AUTOCOMPLETE DROPDOWN --- */
+/* --- FIX: Anchor the Dropdown --- */
+.input-group {
+    position: relative; /* This catches the absolute dropdown */
+}
+
+/* Update the top position to sit right below the input row */
 .autocomplete-items {
+    top: 100%; /* Exact bottom of the parent container */
+    margin-top: 5px; /* Tiny gap */
     position: absolute;
     border: 1px solid var(--border);
-    border-bottom: none;
-    border-top: none;
     z-index: 99;
-    top: 65px; /* Adjust based on your label/input height */
     left: 0;
-    right: 40px; /* Leave space for the + button */
+    right: 40px;
     background-color: var(--card-bg);
     max-height: 200px;
     overflow-y: auto;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px; /* Rounded corners all around */
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
 
 .autocomplete-items div {
     padding: 10px;
