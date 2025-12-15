@@ -465,11 +465,16 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
 }
 
 .saved-name {
-    /* Allow name to take available space but truncate if too long */
-    flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-weight: bold;
+    cursor: pointer;
+    flex-grow: 1; /* Take up available space */
+    
+    /* TRUNCATION MAGIC */
+    white-space: nowrap;       /* Force one line */
+    overflow: hidden;          /* Hide overflow */
+    text-overflow: ellipsis;   /* Add "..." at the end */
+    min-width: 0;              /* Allow flex item to shrink below content size */
+    margin-right: 10px;        /* Space between text and buttons */
 }
 
 .saved-controls {
