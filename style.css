@@ -559,3 +559,47 @@ footer { padding: 20px 10px 40px; text-align: center; color: var(--text); opacit
 [data-theme="dark"] .autocomplete-items div:hover {
     background-color: #333;
 }
+
+/* --- ADVANCED SETTINGS MENU --- */
+.advanced-settings {
+    margin-top: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg); /* Slightly darker/lighter than card */
+    font-size: 0.9rem;
+}
+
+.advanced-settings summary {
+    padding: 10px 15px;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+.advanced-grid {
+    padding: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around; /* Spread them out evenly */
+    align-items: center;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Fix for tooltip positioning inside the new flex container */
+.setting-item .tooltip-container {
+    position: relative; 
+    display: inline-flex; /* Ensure it stays inline with text */
+    vertical-align: middle;
+}
+
+/* Ensure sliders don't get squished on small screens */
+.setting-item .toggle-group {
+    flex-wrap: nowrap;
+}
